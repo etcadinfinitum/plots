@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib as mpl
+mpl.use('Agg')
 import matplotlib.pyplot as pyp
 import matplotlib.dates as mpldates
 import datetime
@@ -26,19 +27,13 @@ def get_level_number(color):
 def get_level_name(color):
     return route_difficulty.get(color)[1]
 
-def get_date_number_equivalent(date):
-    month = date[0:2]
-    day = date[3:5]
-    num_rep = (month * 100) + day
-    return num_rep
-
 # GET DATA, REFORMAT AS NEEDED
 
 datefunc = lambda x: mpldates.date2num(datetime.date(int(x[6:]), int(x[0:2]), int(x[3:5])))
 
-activity, route_level, features, injury_type = np.loadtxt("./climbing-metrics-Route-specs.csv", delimiter=",", skiprows=1, unpack=True, usecols=(1,2,5,7), dtype='str')
+activity, route_level, features, injury_type = np.loadtxt("./routes.csv", delimiter=",", skiprows=1, unpack=True, usecols=(1,2,5,7), dtype='str')
 
-pre_completion, pre_injury, pre_new_route, pre_overhang, pre_handicap = np.loadtxt("./climbing-metrics-Route-specs.csv", delimiter=",", skiprows=1, unpack=True, usecols=(4,6,8,9,10), dtype='str')
+pre_completion, pre_injury, pre_new_route, pre_overhang, pre_handicap = np.loadtxt("./routes.csv", delimiter=",", skiprows=1, unpack=True, usecols=(4,6,8,9,10), dtype='str')
 
 inter_completion = []
 inter_injury = []
@@ -80,7 +75,7 @@ new_route = np.array(inter_new_route)
 overhang = np.array(inter_overhang)
 handicap = np.array(inter_handicap)
 
-dates, quantity_time = np.loadtxt("./climbing-metrics-Route-specs.csv", delimiter=",", skiprows=1, unpack=True, usecols=(0, 3), converters= {0: datefunc})
+dates, quantity_time = np.loadtxt("./routes.csv", delimiter=",", skiprows=1, unpack=True, usecols=(0, 3), converters= {0: datefunc})
 
 def summarize_route_completion_by_date(fin_or_fail):
     new_dict = {}
@@ -141,7 +136,9 @@ route_dates_weekday = []
 route_dates_week = []
 for i in route_dates:
     route_dates_weekday.append(mpldates.num2date(i).isoweekday())
-    route_dates_week.append(((i - mpldates.num2date(i).isoweekday()) % 7) + 1)
+    route_dates_week.append(((int(i) - int(route_dates[0])) / 7) + 1)
+print("Weekday series: " + str(route_dates_weekday))
+print("Week numbers: " + str(route_dates_week))
 
 finished_gray = np.array(finished_routes_intermediate.get('Gray'))
 finished_yellow = np.array(finished_routes_intermediate.get('Yellow'))
@@ -169,8 +166,8 @@ print("finished_green data: " + str(finished_green))
 # plotting 
 
 #subplot setup
-calendar_plot = pyp.subplot2grid((3, 6), (0, 0))
-cost_benefit_plot = pyp.subplot2grid((3, 6), (0, 1))
+calendar_plot = pyp.subplot2grid((3, 6), (0, 0), colspan=2)
+cost_benefit_plot = pyp.subplot2grid((3, 6), (0, 2))
 
 summary_bubble_plot = pyp.subplot2grid((3, 6), (1, 0), colspan=3)
 relative_frequency_plot = pyp.subplot2grid((3, 6), (2, 0), colspan=3)
@@ -179,6 +176,7 @@ relative_frequency_plot = pyp.subplot2grid((3, 6), (2, 0), colspan=3)
 # TODO: add enumerated axis labels
 calendar_plot.set_xlim(min(route_dates_week) - 1, max(route_dates_week) + 1)
 calendar_plot.set_ylim(0, 8)
+calendar_plot.set(xlabel='Week No.', ylabel='Weekday (Mon-Sun)')
 calendar_plot.axis('equal')
 #TODO: get marker size dynamically based on scaled units
 calendar_plot.scatter(route_dates_week, route_dates_weekday, marker='s', c='blue')
@@ -190,6 +188,7 @@ calendar_plot.scatter(route_dates_week, route_dates_weekday, marker='s', c='blue
 summary_bubble_plot.set_xlim(min(route_dates_ordered_array) - 1, max(route_dates_ordered_array) + 1)
 summary_bubble_plot.set_ylim(0, 8)
 summary_bubble_plot.set_title('Route Completion vs Failure by Difficulty')
+summary_bubble_plot.set(xlabel='Session No.', ylabel='Route Difficulty')
 
 # plot failed routes for bubble chart
 summary_bubble_plot.scatter(route_dates_ordered_array, route_dates_array - route_dates_array + 0.5, c='gray', marker='s', s=failed_gray*15, alpha=0.5, label="Uncompleted Attempts")
@@ -211,6 +210,8 @@ summary_bubble_plot.scatter(route_dates_ordered_array, route_dates_array - route
 summary_bubble_plot.scatter(route_dates_ordered_array, route_dates_array - route_dates_array + 5.5, c='orange', marker='o', s=finished_orange*15, edgecolors='black')
 summary_bubble_plot.scatter(route_dates_ordered_array, route_dates_array - route_dates_array + 6.5, c='purple', marker='o', s=finished_purple*15, edgecolors='black')
 summary_bubble_plot.scatter(route_dates_ordered_array, route_dates_array - route_dates_array + 7.5, c='black', marker='o', s=finished_black*15, edgecolors='black')
+
+summary_bubble_plot.legend()
 
 
 # plot relative frequencies of success/fail per day
@@ -238,4 +239,4 @@ relative_frequency_plot.legend()
 
 pyp.tight_layout()
 pyp.savefig('climbing-plot-%s.png' % str(datetime.datetime.today()), bbox_inches='tight')
-pyp.show()
+# pyp.show()
