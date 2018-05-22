@@ -35,45 +35,20 @@ activity, route_level, features, injury_type = np.loadtxt("./routes.csv", delimi
 
 pre_completion, pre_injury, pre_new_route, pre_overhang, pre_handicap = np.loadtxt("./routes.csv", delimiter=",", skiprows=1, unpack=True, usecols=(4,6,8,9,10), dtype='str')
 
-inter_completion = []
-inter_injury = []
-inter_new_route = []
-inter_overhang = []
-inter_handicap = []
+def convert_boolean_arrays(pre_array):
+    inter_array = []
+    for val in pre_array:
+        if val != 'nan':
+            inter_array.append(conversion_constants.get(val))
+        else:
+            inter_array.append(False)
+    return inter_array
 
-def convert_boolean_arrays():
-    for val in pre_completion:
-        if val != 'nan':
-            inter_completion.append(conversion_constants.get(val))
-        else:
-            inter_completion.append(False)
-    for val in pre_injury:
-        if val != 'nan':
-            inter_injury.append(conversion_constants.get(val))
-        else:
-            inter_injury.append(False)
-    for val in pre_new_route:
-        if val != 'nan':
-            inter_new_route.append(conversion_constants.get(val))
-        else:
-            inter_new_route.append(False)
-    for val in pre_overhang:
-        if val != 'nan':
-            inter_overhang.append(conversion_constants.get(val))
-        else:
-            inter_overhang.append(False)
-    for val in pre_handicap:
-        if val != 'nan':
-            inter_handicap.append(conversion_constants.get(val))
-        else:
-            inter_handicap.append(False)
-
-convert_boolean_arrays()
-completion = np.array(inter_completion)
-injury = np.array(inter_injury)
-new_route = np.array(inter_new_route)
-overhang = np.array(inter_overhang)
-handicap = np.array(inter_handicap)
+completion = np.array(convert_boolean_arrays(pre_completion))
+injury = np.array(convert_boolean_arrays(pre_injury))
+new_route = np.array(convert_boolean_arrays(pre_new_route))
+overhang = np.array(convert_boolean_arrays(pre_overhang))
+handicap = np.array(convert_boolean_arrays(pre_handicap))
 
 dates, quantity_time = np.loadtxt("./routes.csv", delimiter=",", skiprows=1, unpack=True, usecols=(0, 3), converters= {0: datefunc})
 
@@ -166,11 +141,17 @@ print("finished_green data: " + str(finished_green))
 # plotting 
 
 #subplot setup
-calendar_plot = pyp.subplot2grid((3, 6), (0, 0), colspan=2)
-cost_benefit_plot = pyp.subplot2grid((3, 6), (0, 2))
+pyp.rcParams["figure.figsize"] = [10,20]
+calendar_plot = pyp.subplot2grid((6, 3), (0, 0), colspan=2)
+weight_profile = pyp.subplot2grid((6, 3), (0, 2))
 
-summary_bubble_plot = pyp.subplot2grid((3, 6), (1, 0), colspan=3)
-relative_frequency_plot = pyp.subplot2grid((3, 6), (2, 0), colspan=3)
+summary_bubble_plot = pyp.subplot2grid((6, 3), (1, 0), colspan=3)
+relative_frequency_plot = pyp.subplot2grid((6, 3), (2, 0), colspan=3)
+legend_super = pyp.subplot2grid((6, 3), (4, 0), colspan=3, frameon=False)
+legend_plot = pyp.subplot2grid((6, 3), (5, 0), colspan=3)
+
+# set up list for legend items 
+handles = []
 
 # plot calendar items
 # TODO: add enumerated axis labels
@@ -181,7 +162,24 @@ calendar_plot.axis('equal')
 #TODO: get marker size dynamically based on scaled units
 calendar_plot.scatter(route_dates_week, route_dates_weekday, marker='s', c='blue')
 
-
+# plot weight profile
+date, weight, body_fat, water, bone_mass, muscle_mass = np.loadtxt('./weigh-ins.csv', unpack=True, skiprows=1, delimiter=',', converters={0: datefunc})
+weight_profile.set_xlim(np.amin(date) - 1, np.amax(date) + 1)
+weight_profile.set_ylim(0, 100)
+bf = weight_profile.plot(date, body_fat, color='orange', ls='--', label='Body Fat Content (%)')
+h20 = weight_profile.plot(date, water, color='blue', ls='--', label='Water Content (%)')
+bone = weight_profile.plot(date, bone_mass, color='gray', ls='--', label='Bone Mass (%)')
+musc = weight_profile.plot(date, muscle_mass, color='green', ls='--', label='Muscle Mass (%)')
+weight_profile.set(xlabel='Date', ylabel='Body Composition (%)')
+weight_profile_weight = weight_profile.twinx()
+weight_profile_weight.set_ylim(0, np.amax(weight))
+weight = weight_profile_weight.plot(date, weight, color='red', ls='-', marker='o', label='Body Weight (lbs)')
+weight_profile_weight.set(ylabel='Weight (lbs)')
+handles.append(bf)
+handles.append(h20)
+handles.append(bone)
+handles.append(weight)
+handles.append(musc)
 
 # plot bubble chart
 
@@ -191,7 +189,7 @@ summary_bubble_plot.set_title('Route Completion vs Failure by Difficulty')
 summary_bubble_plot.set(xlabel='Session No.', ylabel='Route Difficulty')
 
 # plot failed routes for bubble chart
-summary_bubble_plot.scatter(route_dates_ordered_array, route_dates_array - route_dates_array + 0.5, c='gray', marker='s', s=failed_gray*15, alpha=0.5, label="Uncompleted Attempts")
+fails = summary_bubble_plot.scatter(route_dates_ordered_array, route_dates_array - route_dates_array + 0.5, c='gray', marker='s', s=failed_gray*15, alpha=0.5, label="Uncompleted Attempts")
 summary_bubble_plot.scatter(route_dates_ordered_array, route_dates_array - route_dates_array + 1.5, c='yellow', marker='s', s=failed_yellow*15, alpha=0.5)
 summary_bubble_plot.scatter(route_dates_ordered_array, route_dates_array - route_dates_array + 2.5, c='green', marker='s', s=failed_green*15, alpha=0.5)
 summary_bubble_plot.scatter(route_dates_ordered_array, route_dates_array - route_dates_array + 3.5, c='red', marker='s', s=failed_red*15, alpha=0.5)
@@ -202,7 +200,7 @@ summary_bubble_plot.scatter(route_dates_ordered_array, route_dates_array - route
 
 
 # plot finished routes for bubble chart
-summary_bubble_plot.scatter(route_dates_ordered_array, route_dates_array - route_dates_array + 0.5, c='gray', marker='o', s=finished_gray*15, edgecolors='black', label="Completed Attempts")
+fins = summary_bubble_plot.scatter(route_dates_ordered_array, route_dates_array - route_dates_array + 0.5, c='gray', marker='o', s=finished_gray*15, edgecolors='black', label="Completed Attempts")
 summary_bubble_plot.scatter(route_dates_ordered_array, route_dates_array - route_dates_array + 1.5, c='yellow', marker='o', s=finished_yellow*15, edgecolors='black')
 summary_bubble_plot.scatter(route_dates_ordered_array, route_dates_array - route_dates_array + 2.5, c='green', marker='o', s=finished_green*15, edgecolors='black')
 summary_bubble_plot.scatter(route_dates_ordered_array, route_dates_array - route_dates_array + 3.5, c='red', marker='o', s=finished_red*15, edgecolors='black')
@@ -211,7 +209,8 @@ summary_bubble_plot.scatter(route_dates_ordered_array, route_dates_array - route
 summary_bubble_plot.scatter(route_dates_ordered_array, route_dates_array - route_dates_array + 6.5, c='purple', marker='o', s=finished_purple*15, edgecolors='black')
 summary_bubble_plot.scatter(route_dates_ordered_array, route_dates_array - route_dates_array + 7.5, c='black', marker='o', s=finished_black*15, edgecolors='black')
 
-summary_bubble_plot.legend()
+bubble_handles = [fails, fins]
+handles.append(bubble_handles)
 
 
 # plot relative frequencies of success/fail per day
@@ -233,7 +232,25 @@ for i in route_dates_ordered:
 relative_frequency_plot.bar(route_dates_ordered, total_finished_ratio, 0.8, color='green', label='Finished')
 relative_frequency_plot.bar(route_dates_ordered, total_unfinished_ratio, 0.8, bottom=total_finished_ratio, color='orange', label='Failed')
 relative_frequency_plot.set_title('Percentage Success vs Failure for Bouldering Attempts by Day')
-relative_frequency_plot.legend()
+
+# plot all legends in single subplot
+
+legend_super.set_title('Legend')
+legend_super.axis('off')
+legend_super.tick_params(labelcolor=(1.,1.,1., 0.0), top='off', bottom='off', left='off', right='off')
+legend_super.grid(False)
+legend_super._frameon = False
+all_handles = []
+print('Current legend handles: ' + str(handles))
+for h in handles:
+    for i in h:
+        all_handles.append(i)
+print('All handles: ' + str(all_handles))
+all_labels = []
+for h in all_handles:
+    all_labels.append(h.get_label())
+legend_plot.legend(all_handles, all_labels)
+legend_plot.axis('off')
 
 #finishing touches
 
