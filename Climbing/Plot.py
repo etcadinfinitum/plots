@@ -147,11 +147,11 @@ weight_profile = pyp.subplot2grid((6, 3), (0, 2))
 
 summary_bubble_plot = pyp.subplot2grid((6, 3), (1, 0), colspan=3)
 relative_frequency_plot = pyp.subplot2grid((6, 3), (2, 0), colspan=3)
-legend_super = pyp.subplot2grid((6, 3), (4, 0), colspan=3, frameon=False)
-legend_plot = pyp.subplot2grid((6, 3), (5, 0), colspan=3)
+legend_plot_route_diff = pyp.subplot2grid((6, 3), (5, 0))
+legend_plot_weight_data = pyp.subplot2grid((6, 3), (5, 1))
+legend_plot_other = pyp.subplot2grid((6, 3), (5, 2))
 
 # set up list for legend items 
-handles = []
 
 # plot calendar items
 # TODO: add enumerated axis labels
@@ -163,6 +163,7 @@ calendar_plot.axis('equal')
 calendar_plot.scatter(route_dates_week, route_dates_weekday, marker='s', c='blue')
 
 # plot weight profile
+weight_handles = []
 date, weight, body_fat, water, bone_mass, muscle_mass = np.loadtxt('./weigh-ins.csv', unpack=True, skiprows=1, delimiter=',', converters={0: datefunc})
 weight_profile.set_xlim(np.amin(date) - 1, np.amax(date) + 1)
 weight_profile.set_ylim(0, 100)
@@ -175,13 +176,15 @@ weight_profile_weight = weight_profile.twinx()
 weight_profile_weight.set_ylim(0, np.amax(weight))
 weight = weight_profile_weight.plot(date, weight, color='red', ls='-', marker='o', label='Body Weight (lbs)')
 weight_profile_weight.set(ylabel='Weight (lbs)')
-handles.append(bf)
-handles.append(h20)
-handles.append(bone)
-handles.append(weight)
-handles.append(musc)
+weight_handles.append(bf[0])
+weight_handles.append(h20[0])
+weight_handles.append(bone[0])
+weight_handles.append(weight[0])
+weight_handles.append(musc[0])
 
 # plot bubble chart
+
+bubble_handles = []
 
 summary_bubble_plot.set_xlim(min(route_dates_ordered_array) - 1, max(route_dates_ordered_array) + 1)
 summary_bubble_plot.set_ylim(0, 8)
@@ -209,9 +212,8 @@ summary_bubble_plot.scatter(route_dates_ordered_array, route_dates_array - route
 summary_bubble_plot.scatter(route_dates_ordered_array, route_dates_array - route_dates_array + 6.5, c='purple', marker='o', s=finished_purple*15, edgecolors='black')
 summary_bubble_plot.scatter(route_dates_ordered_array, route_dates_array - route_dates_array + 7.5, c='black', marker='o', s=finished_black*15, edgecolors='black')
 
-bubble_handles = [fails, fins]
-handles.append(bubble_handles)
-
+bubble_handles.append(fails)
+bubble_handles.append(fins)
 
 # plot relative frequencies of success/fail per day
 total_finished_per_day = []
@@ -229,28 +231,36 @@ for i in route_dates_ordered:
     total_finished_ratio.append(100 * float(total_finished_per_day[idx]) / total)
     total_unfinished_ratio.append(100 * float(total_unfinished_per_day[idx]) / total)
 
-relative_frequency_plot.bar(route_dates_ordered, total_finished_ratio, 0.8, color='green', label='Finished')
-relative_frequency_plot.bar(route_dates_ordered, total_unfinished_ratio, 0.8, bottom=total_finished_ratio, color='orange', label='Failed')
+fin_perc = relative_frequency_plot.bar(route_dates_ordered, total_finished_ratio, 0.8, color='green', label='Finished')
+fail_perc = relative_frequency_plot.bar(route_dates_ordered, total_unfinished_ratio, 0.8, bottom=total_finished_ratio, color='orange', label='Failed')
 relative_frequency_plot.set_title('Percentage Success vs Failure for Bouldering Attempts by Day')
+other_handles = []
+other_handles.append(fin_perc)
+other_handles.append(fail_perc)
 
-# plot all legends in single subplot
+# plot all legends in single row
 
-legend_super.set_title('Legend')
-legend_super.axis('off')
-legend_super.tick_params(labelcolor=(1.,1.,1., 0.0), top='off', bottom='off', left='off', right='off')
-legend_super.grid(False)
-legend_super._frameon = False
-all_handles = []
-print('Current legend handles: ' + str(handles))
-for h in handles:
-    for i in h:
-        all_handles.append(i)
-print('All handles: ' + str(all_handles))
-all_labels = []
-for h in all_handles:
-    all_labels.append(h.get_label())
-legend_plot.legend(all_handles, all_labels)
-legend_plot.axis('off')
+def get_labels_for_handles(handle_arr):
+    label_arr = []
+    for i in handle_arr:
+        label_arr.append(i.get_label())
+    return label_arr
+
+legend_plot_route_diff.set_title('Route Difficulty Legend')
+bubble_labels = get_labels_for_handles(bubble_handles)
+legend_plot_route_diff.legend(bubble_handles, bubble_labels)
+legend_plot_route_diff.axis('off')
+
+legend_plot_weight_data.set_title('Weight Graph Legend')
+print('Showing weight_handles data: ' + str(weight_handles))
+weight_labels = get_labels_for_handles(weight_handles)
+legend_plot_weight_data.legend(weight_handles, weight_labels)
+legend_plot_weight_data.axis('off')
+
+legend_plot_other.set_title('Other Icons Legend')
+other_labels = get_labels_for_handles(other_handles)
+legend_plot_other.legend(other_handles, other_labels)
+legend_plot_other.axis('off')
 
 #finishing touches
 
