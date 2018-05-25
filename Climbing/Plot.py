@@ -99,7 +99,9 @@ unfinished_bubbles = get_bubble_arrays(unfinished_routes)
 # plotting 
 
 #subplot setup
+# fig = pyp.figure()
 pyp.rcParams["figure.figsize"] = [10,20]
+fig = pyp.figure()
 calendar_plot = pyp.subplot2grid((6, 3), (0, 0), colspan=2)
 weight_profile = pyp.subplot2grid((6, 3), (0, 2))
 
@@ -112,13 +114,16 @@ legend_plot_other = pyp.subplot2grid((6, 3), (5, 2))
 # set up list for legend items 
 
 # plot calendar items
-# TODO: add enumerated axis labels
-calendar_plot.set_xlim(min(route_dates_week) - 1, max(route_dates_week) + 1)
-calendar_plot.set_ylim(0, 8)
+for x in range(1, max(route_dates_week)):
+    for y in range(1, 8):
+        calendar_plot.add_patch(mpl.patches.Rectangle((x - 0.5, y - 0.5), 1, 1, color='gray', alpha=0.5))
+for i in range(len(route_dates_week)):
+    calendar_plot.add_patch(mpl.patches.Rectangle((route_dates_week[i] - 0.5, route_dates_weekday[i] - 0.5), 1, 1, facecolor='b', edgecolor='gray'))
+calendar_plot.set_xlim(min(route_dates_week) - 0.5, max(route_dates_week) + 0.5)
+calendar_plot.set_ylim(0.5, 7.5)
+calendar_plot.set_yticklabels(['', 'M', 'T', 'W', 'Th', 'F', 'Sa', 'Su'])
 calendar_plot.set(xlabel='Week No.', ylabel='Weekday (Mon-Sun)')
 calendar_plot.axis('equal')
-#TODO: get marker size dynamically based on scaled units
-calendar_plot.scatter(route_dates_week, route_dates_weekday, marker='s', c='blue')
 
 # plot weight profile
 weight_handles = []
@@ -131,10 +136,10 @@ bone = weight_profile.plot(date, bone_mass, color='gray', ls='--', label='Bone M
 musc = weight_profile.plot(date, muscle_mass, color='green', ls='--', label='Muscle Mass (%)')
 weight_profile.set(xlabel='Date', ylabel='Body Composition (%)')
 weight_profile_weight = weight_profile.twinx()
-weight_profile_weight.set_ylim(0, np.amax(weight))
+weight_profile_weight.set_ylim(0, 175)
 weight = weight_profile_weight.plot(date, weight, color='red', ls='-', marker='o', label='Body Weight (lbs)')
 weight_profile_weight.set(ylabel='Weight (lbs)')
-weight_handles += [bf[0], h20[0], bone[0], musc[0]]
+weight_handles += [weight[0], bf[0], h20[0], bone[0], musc[0]]
 
 # plot bubble chart
 
