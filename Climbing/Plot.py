@@ -99,7 +99,6 @@ unfinished_bubbles = get_bubble_arrays(unfinished_routes)
 # plotting 
 
 #subplot setup
-# fig = pyp.figure()
 pyp.rcParams["figure.figsize"] = [10,20]
 fig = pyp.figure()
 calendar_plot = pyp.subplot2grid((6, 3), (0, 0), colspan=2)
@@ -107,6 +106,11 @@ weight_profile = pyp.subplot2grid((6, 3), (0, 2))
 
 summary_bubble_plot = pyp.subplot2grid((6, 3), (1, 0), colspan=3)
 relative_frequency_plot = pyp.subplot2grid((6, 3), (2, 0), colspan=3)
+
+overhang_plot = pyp.subplot2grid((6, 3), (3, 0), colspan=2)
+
+time_util_plot = pyp.subplot2grid((6, 3), (4, 0))
+
 legend_plot_route_diff = pyp.subplot2grid((6, 3), (5, 0))
 legend_plot_weight_data = pyp.subplot2grid((6, 3), (5, 1))
 legend_plot_other = pyp.subplot2grid((6, 3), (5, 2))
@@ -173,6 +177,34 @@ fin_perc = relative_frequency_plot.bar(total_ratio_dates, total_finished_ratio, 
 fail_perc = relative_frequency_plot.bar(total_ratio_dates, total_unfinished_ratio, 0.8, bottom=total_finished_ratio, color='orange', label='Failed')
 relative_frequency_plot.set_title('Percentage Success vs Failure for Bouldering Attempts by Day')
 other_handles += [fin_perc, fail_perc]
+
+# overhang plot
+overhang_dates = []
+overhang_fin_count = []
+overhang_fail_count = []
+overhang_summary = {}
+for i in range(len(dates)): 
+    if overhang_summary.get(ordered_dates_dict.get(dates[i]), None) == None:
+        overhang_summary.update({ordered_dates_dict.get(dates[i]): [0., 0.]})
+    if completion[i] and overhang[i]:
+        currval = overhang_summary.get(ordered_dates_dict.get(dates[i]))[0]
+        overhang_summary.get(ordered_dates_dict.get(dates[i]))[0] = currval + quantity_time[i]
+    elif overhang[i]:
+        currval = overhang_summary.get(ordered_dates_dict.get(dates[i]))[1]
+        overhang_summary.get(ordered_dates_dict.get(dates[i]))[1] = currval + quantity_time[i]
+for key in overhang_summary.keys():
+    overhang_dates.append(key)
+    overhang_fin_count.append(overhang_summary.get(key)[0])
+    overhang_fail_count.append(overhang_summary.get(key)[1])
+print('overhang route date array: ' + str(overhang_dates) + '; overhang route success count: ' + str(overhang_fin_count) + '; overhang failure count: ' + str(overhang_fail_count))
+# overhang_plot.plot(overhang_dates, [(100 * (overhang_fin_count[i] / (overhang_fin_count[i] + overhang_fail_count[i]))) for i in overhang_dates], markerstyle='s', color='b', label='Overhanging Route Success Rate')
+
+# time utilization pie chart
+dates, climbing_time, yoga_class, yoga, boulder_class, weights, total_time = np.loadtxt('./session-times.csv', unpack=True, skiprows=1, converters={0: datefunc}, delimiter=',')
+pie_chart_dict = {'Bouldering': sum(climbing_time), 'Yoga Class': sum(yoga_class), 'Yoga': sum(yoga), 'Bouldering Class': sum(boulder_class), 'Weight Room': sum(weights)}
+time_util_plot.pie(pie_chart_dict.values(), labels=pie_chart_dict.keys(), shadow=True, autopct='%1.1f%%')
+time_util_plot.axis('equal')
+time_util_plot.set_title('Time Utilization')
 
 # plot all legends in single row
 
