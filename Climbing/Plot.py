@@ -197,7 +197,10 @@ for key in overhang_summary.keys():
     overhang_fin_count.append(overhang_summary.get(key)[0])
     overhang_fail_count.append(overhang_summary.get(key)[1])
 print('overhang route date array: ' + str(overhang_dates) + '; overhang route success count: ' + str(overhang_fin_count) + '; overhang failure count: ' + str(overhang_fail_count))
-# overhang_plot.plot(overhang_dates, [(100 * (overhang_fin_count[i] / (overhang_fin_count[i] + overhang_fail_count[i]))) for i in overhang_dates], markerstyle='s', color='b', label='Overhanging Route Success Rate')
+overhang_plot.plot(overhang_dates, [(100 * (overhang_fin_count[i] / (overhang_fin_count[i] + overhang_fail_count[i]))) for i in range(len(overhang_dates))], marker='s', mfc='b', label='Overhanging Route Success Rate')
+overhang_plot.set_title('Overhanging Route Completion by Day')
+overhang_plot.set(xlabel='Session No.', ylabel='Completion Rate (%)')
+overhang_plot.set_ylim(0, 100)
 
 # time utilization pie chart
 dates, climbing_time, yoga_class, yoga, boulder_class, weights, total_time = np.loadtxt('./session-times.csv', unpack=True, skiprows=1, converters={0: datefunc}, delimiter=',')
