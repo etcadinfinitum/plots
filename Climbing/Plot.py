@@ -128,6 +128,7 @@ calendar_plot.set_ylim(0.5, 7.5)
 calendar_plot.set_yticklabels(['', 'M', 'T', 'W', 'Th', 'F', 'Sa', 'Su'])
 calendar_plot.set(xlabel='Week No.', ylabel='Weekday (Mon-Sun)')
 calendar_plot.axis('equal')
+calendar_plot.set_title('Session Calendar')
 
 # plot weight profile
 weight_handles = []
@@ -139,6 +140,7 @@ h20 = weight_profile.plot(date, water, color='blue', ls='--', label='Water Conte
 bone = weight_profile.plot(date, bone_mass, color='gray', ls='--', label='Bone Mass (%)')
 musc = weight_profile.plot(date, muscle_mass, color='green', ls='--', label='Muscle Mass (%)')
 weight_profile.set(xlabel='Date', ylabel='Body Composition (%)')
+weight_profile.set_title('Body Composition')
 weight_profile_weight = weight_profile.twinx()
 weight_profile_weight.set_ylim(0, 175)
 weight = weight_profile_weight.plot(date, weight, color='red', ls='-', marker='o', label='Body Weight (lbs)')
