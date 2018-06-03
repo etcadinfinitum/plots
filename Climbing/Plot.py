@@ -63,6 +63,7 @@ def get_ordered_dates_dict():
     for i in sorted(date_list):
         if not i in new_dict:
             new_dict.update({i: counter})
+
             counter += 1
     return new_dict
 
@@ -71,11 +72,16 @@ ordered_dates_dict = get_ordered_dates_dict()
 # set up "calendar" representation of route dates (a la github heatmap)
 route_dates_weekday = []
 route_dates_week = []
-for i in ordered_dates_dict:
-    route_dates_weekday.append(mpldates.num2date(i).isoweekday())
-    route_dates_week.append(math.floor((int(i) - np.amin(dates)) / 7) + 1)
+route_dates_color_grade = []
+route_dates, route_dates_time = np.loadtxt('./session-times.csv', usecols=(0,6), converters={0: datefunc}, skiprows=1, unpack=True, delimiter=',')
+for i in range(len(route_dates)):
+    route_dates_weekday.append(mpldates.num2date(route_dates[i]).isoweekday())
+    route_dates_week.append(math.floor((route_dates[i] - min(route_dates)) / 7) + 1)
+    route_dates_color_grade.append(route_dates_time[i] / np.amax(route_dates_time))
 print("Weekday series: " + str(route_dates_weekday))
 print("Week numbers: " + str(route_dates_week))
+print("Session times: " + str(route_dates_time))
+print("Session times normalized: " + str(route_dates_color_grade))
 
 bubble_icon_size_multiplier = 15
 
@@ -120,15 +126,21 @@ legend_plot_other = pyp.subplot2grid((6, 3), (5, 2))
 # plot calendar items
 for x in range(1, max(route_dates_week)):
     for y in range(1, 8):
-        calendar_plot.add_patch(mpl.patches.Rectangle((x - 0.5, y - 0.5), 1, 1, color='gray', alpha=0.5))
+        calendar_plot.add_patch(mpl.patches.Rectangle((x - 0.5, y - 0.5), 1, 1, color='gray', alpha=0.2))
+cmap = mpl.cm.get_cmap('Greens')
+scale_map = pyp.cm.ScalarMappable(cmap=cmap)
+scale_map.set_array([])
 for i in range(len(route_dates_week)):
-    calendar_plot.add_patch(mpl.patches.Rectangle((route_dates_week[i] - 0.5, route_dates_weekday[i] - 0.5), 1, 1, facecolor='b', edgecolor='gray'))
+    calendar_plot.add_patch(mpl.patches.Rectangle((route_dates_week[i] - 0.5, route_dates_weekday[i] - 0.5), 1, 1, facecolor=cmap(route_dates_color_grade[i])))
 calendar_plot.set_xlim(min(route_dates_week) - 0.5, max(route_dates_week) + 0.5)
 calendar_plot.set_ylim(0.5, 7.5)
 calendar_plot.set_yticklabels(['', 'M', 'T', 'W', 'Th', 'F', 'Sa', 'Su'])
 calendar_plot.set(xlabel='Week No.', ylabel='Weekday (Mon-Sun)')
 calendar_plot.axis('equal')
 calendar_plot.set_title('Session Calendar')
+cal_plot_colorbar = pyp.colorbar(scale_map, ax=calendar_plot, orientation='vertical', ticks=[0., 1.])
+cal_plot_colorbar.ax.set_yticklabels(['0 hrs', '%2.2f hrs' % np.amax(route_dates_time)])
+cal_plot_colorbar.set_label('Session Length', labelpad=-25, rotation=270)
 
 # plot weight profile
 weight_handles = []
