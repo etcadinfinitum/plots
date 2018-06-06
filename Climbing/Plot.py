@@ -124,7 +124,7 @@ legend_plot_other = pyp.subplot2grid((6, 3), (5, 2))
 # set up list for legend items 
 
 # plot calendar items
-for x in range(1, max(route_dates_week)):
+for x in range(1, max(route_dates_week) + 1):
     for y in range(1, 8):
         calendar_plot.add_patch(mpl.patches.Rectangle((x - 0.5, y - 0.5), 1, 1, color='gray', alpha=0.2))
 cmap = mpl.cm.get_cmap('Greens')
