@@ -161,13 +161,10 @@ weight_handles += [weight[0], bf[0], h20[0], bone[0], musc[0]]
 
 # plot bubble chart
 
-bubble_handles = []
-
 summary_bubble_plot.set_xlim(min(ordered_dates_dict.values()) - 1, max(ordered_dates_dict.values()) + 1)
 summary_bubble_plot.set_ylim(0, 8)
 summary_bubble_plot.set_title('Route Completion vs Failure by Difficulty')
 summary_bubble_plot.set(xlabel='Session No.', ylabel='Route Difficulty')
-
 summary_bubble_plot.scatter(unfinished_bubbles[0], unfinished_bubbles[3], c=unfinished_bubbles[1], s=unfinished_bubbles[2], alpha=0.5, marker='s')
 summary_bubble_plot.scatter(finished_bubbles[0], finished_bubbles[3], c=finished_bubbles[1], s=finished_bubbles[2], marker='o', edgecolors='black')
 
@@ -232,9 +229,25 @@ def get_labels_for_handles(handle_arr):
     return label_arr
 
 legend_plot_route_diff.set_title('Route Difficulty Legend')
-bubble_labels = get_labels_for_handles(bubble_handles)
-legend_plot_route_diff.legend(bubble_handles, bubble_labels)
+legend_plot_route_diff.set_ylim(0, 6)
+legend_plot_route_diff.set_xlim(-1, 11)
 legend_plot_route_diff.axis('off')
+diffx = np.linspace(0, 10, 8).tolist()
+legend_plot_route_diff.text(5, 5.5, 'Route Rating:', horizontalalignment='center', verticalalignment='center')
+legend_plot_route_diff.scatter(diffx, [5 for x in diffx], c=[key.lower() for key in route_difficulty.keys()], s=[5 * bubble_icon_size_multiplier for x in diffx], marker='o', edgecolors='black')
+for x in range(len(diffx)):
+    legend_plot_route_diff.text(diffx[x], 4.5, route_difficulty.get(list(route_difficulty.keys())[x])[1], horizontalalignment='center')
+legend_plot_route_diff.scatter(1, 3.5, s=100, c='green', marker='o', edgecolor='black')
+legend_plot_route_diff.text(2, 3.5, 'Completed', verticalalignment='center')
+legend_plot_route_diff.scatter(7, 3.5, s=100, c='green', marker='s', alpha=0.5)
+legend_plot_route_diff.text(8, 3.5, 'Failed', verticalalignment='center')
+legend_plot_route_diff.text(5, 2.2, 'Route Quantity Scale', horizontalalignment='center')
+sample_sizes = [1, 3, 5, 7, 10, 13, 16, 20]
+legend_plot_route_diff.scatter(diffx, [1.5 for x in diffx], c='gray', s=[x * bubble_icon_size_multiplier for x in sample_sizes], marker='o', edgecolors='black')
+legend_plot_route_diff.scatter(diffx, [1.0 for x in diffx], c='gray', s=[x * bubble_icon_size_multiplier for x in sample_sizes], marker='s', alpha=0.5)
+for x in range(len(diffx)):
+    legend_plot_route_diff.text(diffx[x], 0, str(sample_sizes[x]), horizontalalignment='center')
+
 
 legend_plot_weight_data.set_title('Weight Graph Legend')
 weight_labels = get_labels_for_handles(weight_handles)
