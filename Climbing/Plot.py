@@ -238,7 +238,7 @@ for i in range(len(dates)):
             add_feature('corner', i)
 route_feature_percent_dict = {}
 for key in route_feature_dict.keys():
-    route_feature_percent_dict.update({(100 * float(route_feature_dict.get(key)[0]) / (float(route_feature_dict.get(key)[0] + route_feature_dict.get(key)[1]))): key})
+    route_feature_percent_dict.update({(100 * float(route_feature_dict.get(key)[0]) / (float(route_feature_dict.get(key)[1]))): key})
 
 route_feature_plot.set_title('Completion rate by route feature')
 route_feature_plot.set(xlabel='Success Rate (%)', ylabel='Feature Type')
