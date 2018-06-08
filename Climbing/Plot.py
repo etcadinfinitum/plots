@@ -114,7 +114,7 @@ summary_bubble_plot = pyp.subplot2grid((6, 3), (1, 0), colspan=3)
 relative_frequency_plot = pyp.subplot2grid((6, 3), (2, 0), colspan=3)
 
 overhang_plot = pyp.subplot2grid((6, 3), (3, 0), colspan=2)
-
+route_feature_plot = pyp.subplot2grid((6, 3), (3, 2), rowspan=2)
 time_util_plot = pyp.subplot2grid((6, 3), (4, 0))
 
 legend_plot_route_diff = pyp.subplot2grid((6, 3), (5, 0))
@@ -212,6 +212,48 @@ overhang_plot.plot(overhang_dates, [(100 * (overhang_fin_count[i] / (overhang_fi
 overhang_plot.set_title('Overhanging Route Completion by Day')
 overhang_plot.set(xlabel='Session No.', ylabel='Completion Rate (%)')
 overhang_plot.set_ylim(0, 100)
+
+# route feature bar chart
+route_feature_dict = {'overhang': [0, 0], 'volume': [0, 0], 'chip': [0, 0], 'corner': [0, 0], 'new route': [0, 0], 'handicap': [0, 0]}
+
+# helper method to track success and attempt counts per feature
+def add_feature(key, i):
+    if completion[i]:
+        route_feature_dict.get(key)[0] += quantity_time[i]
+    route_feature_dict.get(key)[1] += quantity_time[i]
+
+for i in range(len(dates)):
+    if activity[i] == 'Bouldering':
+        if overhang[i]:
+            add_feature('overhang', i)
+        if new_route[i]:
+            add_feature('new route', i)
+        if handicap[i]:
+            add_feature('handicap', i)
+        if 'volume' in features[i]:
+            add_feature('volume', i)
+        if 'chip' in features[i]:
+            add_feature('chip', i)
+        if 'corner' in features[i]:
+            add_feature('corner', i)
+route_feature_percent_dict = {}
+for key in route_feature_dict.keys():
+    route_feature_percent_dict.update({(100 * float(route_feature_dict.get(key)[0]) / (float(route_feature_dict.get(key)[0] + route_feature_dict.get(key)[1]))): key})
+
+route_feature_plot.set_title('Completion rate by route feature')
+route_feature_plot.set(xlabel='Success Rate (%)', ylabel='Feature Type')
+route_feature_plot.set_xlim(0, 100)
+route_feature_plot.xaxis.grid(True)
+route_feature_plot.set_axisbelow(True)
+ypos = np.arange(len(route_feature_dict.keys()))
+route_feature_plot.set_yticks(ypos)
+route_feature_plot.set_yticklabels([route_feature_percent_dict[key] for key in sorted(route_feature_percent_dict.keys())])
+print(str(route_feature_dict))
+bars = route_feature_plot.barh(ypos, sorted(route_feature_percent_dict.keys()), color='purple')
+# need to add value labels for each bar
+for bar in bars:
+    pass
+
 
 # time utilization pie chart
 dates, climbing_time, yoga_class, yoga, boulder_class, weights, total_time = np.loadtxt('./session-times.csv', unpack=True, skiprows=1, converters={0: datefunc}, delimiter=',')
