@@ -257,7 +257,7 @@ for bar in bars:
 
 # time utilization pie chart
 dates, climbing_time, yoga_class, yoga, boulder_class, weights, total_time = np.loadtxt('./session-times.csv', unpack=True, skiprows=1, converters={0: datefunc}, delimiter=',')
-pie_chart_dict = {'Bouldering': sum(climbing_time), 'Yoga Class': sum(yoga_class), 'Yoga': sum(yoga), 'Bouldering Class': sum(boulder_class), 'Weight Room': sum(weights)}
+pie_chart_dict = {'Bouldering': sum(climbing_time), 'Yoga': sum(yoga),'Yoga Class': sum(yoga_class), 'Bouldering Class': sum(boulder_class), 'Weight Room': sum(weights)}
 time_util_plot.pie(pie_chart_dict.values(), labels=pie_chart_dict.keys(), shadow=True, autopct='%1.1f%%')
 time_util_plot.axis('equal')
 time_util_plot.set_title('Time Utilization')

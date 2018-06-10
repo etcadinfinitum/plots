@@ -1,23 +1,28 @@
 Date,Exercise Type,Route Color/Level,Quantity/Time,Completion,Route features,Injury,Injury Type,New Route,Overhanging Route,Handicap
-05/14/2018,Yoga Class,nan,1,TRUE,nan,FALSE,nan,nan,nan,nan
+05/14/2018,Yoga Class,nan,1,TRUE,nan,FALSE,nan,FALSE,FALSE,FALSE
 05/14/2018,Bouldering,Gray,1,TRUE,nan,FALSE,nan,TRUE,TRUE,FALSE
-05/14/2018,Bouldering,Gray,2,TRUE,nan,FALSE,nan,TRUE,FALSE,FALSE
-05/14/2018,Bouldering,Gray,2,FALSE,nan,FALSE,nan,TRUE,TRUE,FALSE
+05/14/2018,Bouldering,Gray,1,TRUE,nan,FALSE,nan,TRUE,FALSE,FALSE
+05/14/2018,Bouldering,Gray,1,TRUE,nan,FALSE,nan,FALSE,FALSE,FALSE
+05/14/2018,Bouldering,Gray,1,FALSE,nan,FALSE,nan,TRUE,TRUE,FALSE
+05/14/2018,Bouldering,Gray,1,FALSE,nan,FALSE,nan,FALSE,TRUE,FALSE
 05/14/2018,Bouldering,Gray,1,TRUE,nan,FALSE,nan,FALSE,TRUE,FALSE
 05/14/2018,Bouldering,Gray,1,TRUE,nan,FALSE,nan,TRUE,FALSE,FALSE
 05/14/2018,Bouldering,Yellow,1,TRUE,nan,FALSE,nan,TRUE,TRUE,FALSE
-05/14/2018,Bouldering,Yellow,10,FALSE,nan,FALSE,nan,TRUE,FALSE,FALSE
+05/14/2018,Bouldering,Yellow,1,FALSE,nan,FALSE,nan,TRUE,FALSE,FALSE
+05/14/2018,Bouldering,Yellow,9,FALSE,nan,FALSE,nan,FALSE,FALSE,FALSE
 05/14/2018,Bouldering,Yellow,2,TRUE,nan,FALSE,nan,FALSE,FALSE,FALSE
 05/14/2018,Bouldering,Gray,1,FALSE,nan,FALSE,nan,TRUE,TRUE,FALSE
 05/14/2018,Bouldering,Gray,1,TRUE,nan,FALSE,nan,TRUE,TRUE,FALSE
-05/14/2018,Bouldering,Green,4,FALSE,nan,FALSE,nan,TRUE,FALSE,FALSE
+05/14/2018,Bouldering,Green,1,FALSE,nan,FALSE,nan,TRUE,FALSE,FALSE
+05/14/2018,Bouldering,Green,3,FALSE,nan,FALSE,nan,FALSE,FALSE,FALSE
 05/14/2018,Bouldering,Yellow,1,FALSE,volume,FALSE,nan,TRUE,TRUE,FALSE
 05/14/2018,Bouldering,Yellow,1,TRUE,wide-stance,FALSE,nan,TRUE,FALSE,FALSE
 05/14/2018,Bouldering,Yellow,1,TRUE,corner,FALSE,nan,TRUE,FALSE,FALSE
-05/14/2018,Bouldering,Yellow,2,FALSE,chip,FALSE,nan,TRUE,FALSE,FALSE
+05/14/2018,Bouldering,Yellow,1,FALSE,chip,FALSE,nan,TRUE,FALSE,FALSE
+05/14/2018,Bouldering,Yellow,1,FALSE,chip,FALSE,nan,FALSE,FALSE,FALSE
 05/14/2018,Bouldering,Yellow,1,TRUE,chip,FALSE,nan,FALSE,FALSE,FALSE
 05/14/2018,Bouldering,Yellow,1,TRUE,nan,FALSE,nan,TRUE,TRUE,FALSE
-05/16/2018,Yoga Class,nan,1,TRUE,nan,TRUE,knees+hips,nan,nan,nan
+05/16/2018,Yoga Class,nan,1,TRUE,nan,TRUE,knees+hips,FALSE,FALSE,FALSE
 05/16/2018,Bouldering,Yellow,1,TRUE,volume,FALSE,nan,FALSE,TRUE,FALSE
 05/16/2018,Bouldering,Gray,1,TRUE,nan,FALSE,nan,FALSE,FALSE,FALSE
 05/16/2018,Bouldering,Yellow,2,FALSE,corner,FALSE,nan,FALSE,FALSE,FALSE
@@ -34,10 +39,11 @@ Date,Exercise Type,Route Color/Level,Quantity/Time,Completion,Route features,Inj
 05/16/2018,Bouldering,Gray,1,TRUE,nan,FALSE,nan,FALSE,TRUE,FALSE
 05/16/2018,Bouldering,Gray,1,FALSE,nan,FALSE,nan,FALSE,FALSE,TRUE
 05/16/2018,Bouldering,Gray,2,TRUE,nan,FALSE,nan,FALSE,FALSE,TRUE
-05/17/2018,Yoga,nan,0.5,TRUE,nan,FALSE,nan,nan,nan,nan
+05/17/2018,Yoga,nan,0.5,TRUE,nan,FALSE,nan,FALSE,FALSE,FALSE
 05/17/2018,Bouldering,Yellow,1,FALSE,nan,FALSE,nan,TRUE,TRUE,FALSE
 05/17/2018,Bouldering,Yellow,1,TRUE,nan,FALSE,nan,FALSE,TRUE,FALSE
-05/17/2018,Bouldering,Yellow,2,FALSE,volume,FALSE,nan,TRUE,FALSE,FALSE
+05/17/2018,Bouldering,Yellow,1,FALSE,volume,FALSE,nan,TRUE,FALSE,FALSE
+05/17/2018,Bouldering,Yellow,1,FALSE,volume,FALSE,nan,FALSE,FALSE,FALSE
 05/17/2018,Bouldering,Yellow,1,TRUE,volume,FALSE,nan,FALSE,FALSE,FALSE
 05/17/2018,Bouldering,Yellow,1,FALSE,volume-corner,FALSE,nan,TRUE,TRUE,FALSE
 05/17/2018,Bouldering,Yellow,1,FALSE,chip,FALSE,nan,FALSE,FALSE,FALSE
@@ -59,7 +65,8 @@ Date,Exercise Type,Route Color/Level,Quantity/Time,Completion,Route features,Inj
 05/18/2018,Bouldering,Yellow,1,FALSE,volume-corner,TRUE,shoulder,FALSE,TRUE,FALSE
 05/18/2018,Bouldering,Gray,1,FALSE,nan,FALSE,nan,FALSE,FALSE,TRUE
 05/18/2018,Bouldering,Gray,1,TRUE,nan,FALSE,nan,FALSE,FALSE,TRUE
-05/18/2018,Bouldering,Green,10,FALSE,volume,FALSE,nan,TRUE,FALSE,FALSE
+05/18/2018,Bouldering,Green,1,FALSE,volume,FALSE,nan,TRUE,FALSE,FALSE
+05/18/2018,Bouldering,Green,9,FALSE,volume,FALSE,nan,FALSE,FALSE,FALSE
 05/18/2018,Bouldering,Yellow,1,TRUE,nan,FALSE,nan,FALSE,TRUE,FALSE
 05/18/2018,Bouldering,Green,1,TRUE,nan,FALSE,nan,FALSE,FALSE,FALSE
 05/18/2018,Bouldering,Yellow,1,TRUE,diag-chips,FALSE,nan,TRUE,FALSE,FALSE
@@ -69,7 +76,8 @@ Date,Exercise Type,Route Color/Level,Quantity/Time,Completion,Route features,Inj
 05/20/2018,Bouldering,Yellow,1,TRUE,nan,FALSE,nan,FALSE,FALSE,FALSE
 05/20/2018,Bouldering,Green,3,FALSE,nan,FALSE,nan,FALSE,FALSE,FALSE
 05/20/2018,Bouldering,Yellow,1,FALSE,nan,FALSE,nan,TRUE,TRUE,FALSE
-05/20/2018,Bouldering,Green,4,FALSE,nan,FALSE,nan,TRUE,FALSE,FALSE
+05/20/2018,Bouldering,Green,1,FALSE,nan,FALSE,nan,TRUE,FALSE,FALSE
+05/20/2018,Bouldering,Green,3,FALSE,nan,FALSE,nan,FALSE,FALSE,FALSE
 05/20/2018,Bouldering,Yellow,1,TRUE,nan,FALSE,nan,TRUE,FALSE,FALSE
 05/20/2018,Bouldering,Green,1,FALSE,jumper,FALSE,nan,TRUE,FALSE,FALSE
 05/20/2018,Bouldering,Gray,1,TRUE,nan,FALSE,nan,FALSE,FALSE,TRUE
@@ -86,7 +94,7 @@ Date,Exercise Type,Route Color/Level,Quantity/Time,Completion,Route features,Inj
 05/20/2018,Bouldering,Yellow,1,TRUE,corner,FALSE,nan,FALSE,FALSE,FALSE
 05/20/2018,Bouldering,Yellow,1,FALSE,volume,FALSE,nan,FALSE,TRUE,FALSE
 05/20/2018,Bouldering,Yellow,2,TRUE,volume,FALSE,nan,FALSE,TRUE,FALSE
-05/21/2018,Yoga Class,nan,1,TRUE,nan,FALSE,nan,nan,nan,nan
+05/21/2018,Yoga Class,nan,1,TRUE,nan,FALSE,nan,FALSE,FALSE,FALSE
 05/21/2018,Bouldering,Green,1,FALSE,nan,FALSE,nan,FALSE,TRUE,FALSE
 05/21/2018,Bouldering,Green,1,TRUE,nan,FALSE,nan,FALSE,TRUE,FALSE
 05/21/2018,Bouldering,Green,2,FALSE,nan,FALSE,nan,FALSE,TRUE,FALSE
@@ -97,7 +105,7 @@ Date,Exercise Type,Route Color/Level,Quantity/Time,Completion,Route features,Inj
 05/21/2018,Bouldering,Green,2,FALSE,volume,FALSE,nan,FALSE,FALSE,FALSE
 05/21/2018,Bouldering,Green,1,TRUE,volume-chip,FALSE,nan,FALSE,FALSE,FALSE
 05/21/2018,Bouldering,Green,1,TRUE,chip,FALSE,nan,FALSE,FALSE,FALSE
-05/23/2018,Yoga Class,nan,1,TRUE,nan,FALSE,nan,nan,nan,nan
+05/23/2018,Yoga Class,nan,1,TRUE,nan,FALSE,nan,FALSE,FALSE,FALSE
 05/23/2018,Bouldering,Green,1,TRUE,nan,FALSE,nan,FALSE,TRUE,FALSE
 05/23/2018,Bouldering,Yellow,1,FALSE,nan,FALSE,nan,FALSE,TRUE,FALSE
 05/23/2018,Bouldering,Yellow,1,TRUE,nan,FALSE,nan,FALSE,FALSE,FALSE
@@ -122,12 +130,14 @@ Date,Exercise Type,Route Color/Level,Quantity/Time,Completion,Route features,Inj
 05/25/2018,Bouldering,Yellow,1,TRUE,nan,FALSE,nan,FALSE,TRUE,FALSE
 05/25/2018,Bouldering,Yellow,1,FALSE,volume-jumper,FALSE,nan,FALSE,TRUE,FALSE
 05/25/2018,Bouldering,Yellow,1,TRUE,volume-jumper,FALSE,nan,FALSE,TRUE,FALSE
-05/25/2018,Bouldering,Yellow,3,FALSE,volume,FALSE,nan,TRUE,FALSE,FALSE
+05/25/2018,Bouldering,Yellow,1,FALSE,volume,FALSE,nan,TRUE,FALSE,FALSE
+05/25/2018,Bouldering,Yellow,2,FALSE,volume,FALSE,nan,FALSE,FALSE,FALSE
 05/25/2018,Bouldering,Green,1,FALSE,nan,FALSE,nan,FALSE,FALSE,FALSE
 05/25/2018,Bouldering,Green,1,TRUE,nan,FALSE,nan,TRUE,FALSE,FALSE
 05/25/2018,Bouldering,Yellow,1,TRUE,corner,FALSE,nan,TRUE,FALSE,FALSE
 05/25/2018,Bouldering,Yellow,1,FALSE,nan,FALSE,nan,FALSE,TRUE,FALSE
-05/25/2018,Bouldering,Yellow,2,FALSE,corner,FALSE,nan,TRUE,FALSE,FALSE
+05/25/2018,Bouldering,Yellow,1,FALSE,corner,FALSE,nan,TRUE,FALSE,FALSE
+05/25/2018,Bouldering,Yellow,1,FALSE,corner,FALSE,nan,FALSE,FALSE,FALSE
 05/25/2018,Bouldering,Yellow,1,FALSE,nan,FALSE,nan,FALSE,TRUE,FALSE
 05/25/2018,Bouldering,Yellow,2,TRUE,volume-corner,FALSE,nan,FALSE,TRUE,FALSE
 05/25/2018,Bouldering,Green,1,FALSE,nan,FALSE,nan,FALSE,FALSE,FALSE
@@ -163,7 +173,8 @@ Date,Exercise Type,Route Color/Level,Quantity/Time,Completion,Route features,Inj
 05/30/2018,Bouldering,Green,2,FALSE,volume,FALSE,nan,FALSE,FALSE,FALSE
 05/30/2018,Bouldering,Green,1,TRUE,volume,FALSE,nan,FALSE,FALSE,FALSE
 05/30/2018,Bouldering,Green,1,FALSE,nan,FALSE,nan,TRUE,FALSE,FALSE
-05/30/2018,Bouldering,Red,2,FALSE,nan,FALSE,nan,TRUE,FALSE,FALSE
+05/30/2018,Bouldering,Red,1,FALSE,nan,FALSE,nan,TRUE,FALSE,FALSE
+05/30/2018,Bouldering,Red,1,FALSE,nan,FALSE,nan,FALSE,FALSE,FALSE
 05/30/2018,Bouldering,Green,4,TRUE,nan,FALSE,nan,FALSE,FALSE,FALSE
 05/30/2018,Bouldering,Yellow,1,TRUE,corner,FALSE,nan,FALSE,FALSE,FALSE
 05/30/2018,Bouldering,Yellow,2,TRUE,volume,FALSE,nan,FALSE,FALSE,FALSE
@@ -184,7 +195,7 @@ Date,Exercise Type,Route Color/Level,Quantity/Time,Completion,Route features,Inj
 05/31/2018,Bouldering,Yellow,1,TRUE,volume,FALSE,nan,FALSE,FALSE,FALSE
 05/31/2018,Bouldering,Yellow,1,TRUE,nan,FALSE,nan,FALSE,TRUE,FALSE
 05/31/2018,Bouldering,Yellow,2,TRUE,volume-corner,FALSE,nan,FALSE,FALSE,FALSE
-05/31/2018,Weight Room,nan,0.5,TRUE,3x10-dips-pushups-rotatorpole-wristextension,FALSE,nan,FALSE,FALSE,FALSE
+05/31/2018,Weight Room,nan,0.5,TRUE,nan,FALSE,nan,FALSE,FALSE,FALSE
 06/01/2018,Bouldering,Yellow,1,TRUE,nan,FALSE,nan,FALSE,TRUE,FALSE
 06/01/2018,Bouldering,Green,1,TRUE,volume,FALSE,nan,FALSE,FALSE,FALSE
 06/01/2018,Bouldering,Yellow,1,TRUE,nan,FALSE,nan,FALSE,TRUE,FALSE
@@ -192,9 +203,11 @@ Date,Exercise Type,Route Color/Level,Quantity/Time,Completion,Route features,Inj
 06/01/2018,Bouldering,Yellow,1,TRUE,jumper,FALSE,nan,FALSE,FALSE,FALSE
 06/01/2018,Bouldering,Green,1,TRUE,nan,FALSE,nan,FALSE,FALSE,FALSE
 06/01/2018,Bouldering,Yellow,1,FALSE,nan,TRUE,shoulder-spasm,FALSE,TRUE,FALSE
-06/01/2018,Bouldering,Yellow,2,FALSE,jumper,FALSE,nan,TRUE,TRUE,FALSE
+06/01/2018,Bouldering,Yellow,1,FALSE,jumper,FALSE,nan,TRUE,TRUE,FALSE
+06/01/2018,Bouldering,Yellow,1,FALSE,jumper,FALSE,nan,FALSE,TRUE,FALSE
 06/01/2018,Bouldering,Yellow,3,TRUE,volume,FALSE,nan,FALSE,FALSE,FALSE
-06/01/2018,Bouldering,Green,2,FALSE,nan,FALSE,nan,TRUE,FALSE,FALSE
+06/01/2018,Bouldering,Green,1,FALSE,nan,FALSE,nan,TRUE,FALSE,FALSE
+06/01/2018,Bouldering,Green,1,FALSE,nan,FALSE,nan,FALSE,FALSE,FALSE
 06/01/2018,Bouldering,Yellow,4,FALSE,nan,FALSE,nan,FALSE,TRUE,FALSE
 06/01/2018,Bouldering,Yellow,1,TRUE,nan,FALSE,nan,FALSE,TRUE,FALSE
 06/02/2018,Bouldering,Green,1,TRUE,volume,FALSE,nan,FALSE,FALSE,FALSE
@@ -203,8 +216,99 @@ Date,Exercise Type,Route Color/Level,Quantity/Time,Completion,Route features,Inj
 06/02/2018,Bouldering,Yellow,1,TRUE,corner,FALSE,nan,FALSE,FALSE,FALSE
 06/02/2018,Bouldering,Red,1,FALSE,corner,FALSE,nan,FALSE,FALSE,FALSE
 06/02/2018,Bouldering,Yellow,1,FALSE,corner,FALSE,nan,FALSE,TRUE,FALSE
-06/02/2018,Bouldering,Red,3,FALSE,nan,FALSE,nan,TRUE,TRUE,FALSE
+06/02/2018,Bouldering,Red,1,FALSE,nan,FALSE,nan,TRUE,TRUE,FALSE
+06/02/2018,Bouldering,Red,2,FALSE,nan,FALSE,nan,FALSE,TRUE,FALSE
 06/02/2018,Bouldering,Green,1,TRUE,nan,FALSE,nan,FALSE,FALSE,FALSE
 06/02/2018,Bouldering,Yellow,1,TRUE,nan,FALSE,nan,FALSE,TRUE,FALSE
 06/02/2018,Bouldering,Yellow,1,FALSE,nan,FALSE,nan,FALSE,TRUE,FALSE
 06/02/2018,Bouldering,Red,2,FALSE,corner,FALSE,nan,FALSE,TRUE,FALSE
+06/03/2018,Bouldering,Yellow,1,TRUE,nan,FALSE,nan,FALSE,TRUE,FALSE
+06/03/2018,Bouldering,Green,1,FALSE,volume,FALSE,nan,FALSE,FALSE,FALSE
+06/03/2018,Bouldering,Green,1,TRUE,volume,FALSE,nan,FALSE,FALSE,FALSE
+06/03/2018,Bouldering,Red,1,FALSE,corner,FALSE,nan,FALSE,FALSE,FALSE
+06/03/2018,Bouldering,Red,1,TRUE,corner,FALSE,nan,FALSE,FALSE,FALSE
+06/03/2018,Bouldering,Gray,1,TRUE,nan,FALSE,nan,TRUE,TRUE,FALSE
+06/03/2018,Bouldering,Red,1,FALSE,nan,FALSE,nan,FALSE,TRUE,FALSE
+06/03/2018,Bouldering,Yellow,1,TRUE,corner,FALSE,nan,FALSE,FALSE,FALSE
+06/03/2018,Bouldering,Green,1,TRUE,nan,FALSE,nan,FALSE,FALSE,FALSE
+06/03/2018,Bouldering,Yellow,1,TRUE,volume,FALSE,nan,FALSE,FALSE,FALSE
+06/03/2018,Bouldering,Yellow,1,TRUE,nan,FALSE,nan,FALSE,TRUE,FALSE
+06/03/2018,Bouldering,Yellow,1,TRUE,nan,FALSE,nan,FALSE,TRUE,FALSE
+06/03/2018,Bouldering,Yellow,1,TRUE,jumper,FALSE,nan,FALSE,FALSE,FALSE
+06/03/2018,Bouldering,Green,2,FALSE,nan,FALSE,nan,FALSE,FALSE,FALSE
+06/03/2018,Bouldering,Green,3,FALSE,jumper-chip,FALSE,nan,FALSE,FALSE,FALSE
+06/03/2018,Bouldering,Green,2,TRUE,jumper-chip,FALSE,nan,FALSE,FALSE,FALSE
+06/03/2018,Bouldering,Green,2,TRUE,nan,FALSE,nan,FALSE,FALSE,FALSE
+06/03/2018,Bouldering,Green,1,TRUE,chip,FALSE,nan,FALSE,FALSE,FALSE
+06/03/2018,Bouldering,Green,1,FALSE,nan,FALSE,nan,FALSE,FALSE,FALSE
+06/03/2018,Bouldering,Yellow,2,TRUE,nan,FALSE,nan,FALSE,TRUE,FALSE
+06/03/2018,Bouldering,Red,1,FALSE,corner,FALSE,nan,FALSE,FALSE,FALSE
+06/03/2018,Bouldering,Yellow,1,TRUE,volume,FALSE,nan,FALSE,TRUE,FALSE
+06/03/2018,Bouldering,Green,1,TRUE,nan,FALSE,nan,FALSE,FALSE,FALSE
+06/03/2018,Bouldering,Yellow,1,FALSE,nan,FALSE,nan,FALSE,TRUE,FALSE
+06/03/2018,Weight Room,nan,0.45,TRUE,nan,FALSE,nan,FALSE,FALSE,FALSE
+06/06/2018,Bouldering,Green,1,TRUE,volume,FALSE,nan,FALSE,FALSE,FALSE
+06/06/2018,Bouldering,Green,1,TRUE,jumper-chip,FALSE,nan,FALSE,FALSE,FALSE
+06/06/2018,Bouldering,Green,1,TRUE,nan,FALSE,nan,FALSE,FALSE,FALSE
+06/06/2018,Bouldering,Green,3,FALSE,chip,FALSE,nan,FALSE,FALSE,FALSE
+06/06/2018,Bouldering,Yellow,2,FALSE,nan,FALSE,nan,FALSE,TRUE,FALSE
+06/06/2018,Bouldering,Yellow,3,FALSE,nan,FALSE,nan,FALSE,TRUE,FALSE
+06/06/2018,Bouldering,Yellow,2,TRUE,nan,FALSE,nan,FALSE,TRUE,FALSE
+06/06/2018,Bouldering,Yellow,1,TRUE,nan,FALSE,nan,TRUE,FALSE,FALSE
+06/06/2018,Bouldering,Green,1,FALSE,jumper,FALSE,nan,TRUE,FALSE,FALSE
+06/06/2018,Bouldering,Green,1,FALSE,jumper,FALSE,nan,FALSE,FALSE,FALSE
+06/06/2018,Bouldering,Green,1,TRUE,jumper,FALSE,nan,FALSE,FALSE,FALSE
+06/06/2018,Bouldering,Red,2,FALSE,jumper,FALSE,nan,FALSE,FALSE,FALSE
+06/06/2018,Bouldering,Green,1,TRUE,nan,FALSE,nan,FALSE,FALSE,FALSE
+06/06/2018,Bouldering,Yellow,1,FALSE,nan,FALSE,nan,FALSE,TRUE,FALSE
+06/06/2018,Bouldering,Yellow,1,TRUE,volume,FALSE,nan,TRUE,TRUE,FALSE
+06/06/2018,Bouldering,Green,1,FALSE,corner,FALSE,nan,TRUE,FALSE,FALSE
+06/06/2018,Bouldering,Yellow,2,TRUE,volume,FALSE,nan,FALSE,FALSE,FALSE
+06/06/2018,Bouldering,Green,2,TRUE,volume,FALSE,nan,FALSE,FALSE,FALSE
+06/06/2018,Weight Room,nan,0.5,TRUE,nan,FALSE,nan,FALSE,FALSE,FALSE
+06/07/2018,Bouldering,Yellow,1,FALSE,nan,FALSE,nan,FALSE,TRUE,FALSE
+06/07/2018,Bouldering,Yellow,1,TRUE,corner,FALSE,nan,FALSE,FALSE,FALSE
+06/07/2018,Bouldering,Yellow,1,TRUE,nan,FALSE,nan,FALSE,FALSE,FALSE
+06/07/2018,Bouldering,Green,1,TRUE,jumper,FALSE,nan,FALSE,FALSE,FALSE
+06/07/2018,Bouldering,Yellow,1,FALSE,corner,FALSE,nan,FALSE,TRUE,FALSE
+06/07/2018,Bouldering,Yellow,1,TRUE,volume,FALSE,nan,FALSE,TRUE,FALSE
+06/07/2018,Bouldering,Green,1,TRUE,jumper-chip,FALSE,nan,FALSE,FALSE,FALSE
+06/07/2018,Bouldering,Green,1,FALSE,jumper,FALSE,nan,FALSE,FALSE,FALSE
+06/07/2018,Bouldering,Red,1,FALSE,volume-corner,FALSE,nan,FALSE,FALSE,FALSE
+06/07/2018,Bouldering,Red,1,FALSE,chip,FALSE,nan,FALSE,FALSE,FALSE
+06/07/2018,Bouldering,Green,1,FALSE,chip,FALSE,nan,FALSE,FALSE,FALSE
+06/07/2018,Bouldering,Green,1,TRUE,chip,FALSE,nan,FALSE,FALSE,FALSE
+06/07/2018,Bouldering,Green,1,TRUE,volume,FALSE,nan,FALSE,FALSE,FALSE
+06/07/2018,Bouldering,Yellow,1,TRUE,jumper,FALSE,nan,FALSE,FALSE,FALSE
+06/07/2018,Bouldering,Green,2,TRUE,jumper,FALSE,nan,FALSE,FALSE,FALSE
+06/07/2018,Bouldering,Yellow,1,TRUE,jumper,FALSE,nan,FALSE,FALSE,FALSE
+06/07/2018,Bouldering,Green,1,TRUE,nan,FALSE,nan,FALSE,FALSE,FALSE
+06/07/2018,Bouldering,Yellow,1,TRUE,volume-corner,FALSE,nan,FALSE,TRUE,FALSE
+06/07/2018,Bouldering,Yellow,1,TRUE,nan,FALSE,nan,FALSE,TRUE,FALSE
+06/07/2018,Bouldering,Gray,2,FALSE,nan,FALSE,nan,FALSE,TRUE,TRUE
+06/09/2018,Weight Room,nan,0.5,TRUE,nan,FALSE,nan,FALSE,FALSE,FALSE
+06/09/2018,Bouldering,Yellow,1,TRUE,nan,FALSE,nan,FALSE,TRUE,FALSE
+06/09/2018,Bouldering,Green,1,TRUE,nan,FALSE,nan,FALSE,TRUE,FALSE
+06/09/2018,Bouldering,Green,1,FALSE,nan,FALSE,nan,TRUE,TRUE,FALSE
+06/09/2018,Bouldering,Green,1,FALSE,nan,FALSE,nan,FALSE,TRUE,FALSE
+06/09/2018,Bouldering,Yellow,1,FALSE,chip,FALSE,nan,TRUE,FALSE,FALSE
+06/09/2018,Bouldering,Yellow,1,FALSE,chip,FALSE,nan,FALSE,FALSE,FALSE
+06/09/2018,Bouldering,Yellow,3,TRUE,chip,FALSE,nan,FALSE,FALSE,FALSE
+06/09/2018,Bouldering,Yellow,1,TRUE,nan,FALSE,nan,FALSE,FALSE,FALSE
+06/09/2018,Bouldering,Green,2,FALSE,chip,FALSE,nan,FALSE,FALSE,FALSE
+06/09/2018,Bouldering,Red,1,FALSE,volume,FALSE,nan,TRUE,FALSE,FALSE
+06/09/2018,Bouldering,Red,1,FALSE,volume,FALSE,nan,FALSE,FALSE,FALSE
+06/09/2018,Bouldering,Yellow,1,FALSE,nan,FALSE,nan,FALSE,TRUE,FALSE
+06/09/2018,Bouldering,Green,2,FALSE,jumper,FALSE,nan,FALSE,FALSE,FALSE
+06/09/2018,Bouldering,Yellow,1,TRUE,nan,FALSE,nan,FALSE,TRUE,FALSE
+06/09/2018,Bouldering,Green,1,TRUE,jumper,FALSE,nan,FALSE,FALSE,FALSE
+06/09/2018,Bouldering,Green,1,FALSE,jumper,FALSE,nan,FALSE,FALSE,FALSE
+06/09/2018,Bouldering,Green,1,TRUE,volume-jumper,FALSE,nan,FALSE,FALSE,FALSE
+06/09/2018,Bouldering,Green,1,TRUE,nan,FALSE,nan,FALSE,FALSE,FALSE
+06/09/2018,Bouldering,Yellow,1,TRUE,jumper,FALSE,nan,FALSE,FALSE,FALSE
+06/09/2018,Bouldering,Yellow,1,TRUE,nan,FALSE,nan,FALSE,FALSE,FALSE
+06/09/2018,Bouldering,Green,1,TRUE,chip,FALSE,nan,FALSE,FALSE,FALSE
+06/09/2018,Bouldering,Yellow,1,TRUE,nan,FALSE,nan,FALSE,TRUE,FALSE
+06/09/2018,Bouldering,Yellow,1,FALSE,nan,FALSE,nan,FALSE,TRUE,FALSE
+06/09/2018,Bouldering,Green,1,TRUE,chip,FALSE,nan,FALSE,FALSE,FALSE
+06/09/2018,Bouldering,Green,1,FALSE,nan,FALSE,nan,TRUE,TRUE,FALSE
