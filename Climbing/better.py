@@ -41,8 +41,10 @@ class Data:
         
         self.session_dates, climbing_time, yoga, yoga_class, boulder_class, weights, self.session_times = np.loadtxt('session-times.csv', converters={0: datefunc}, skiprows=1, unpack=True, delimiter=',')
         self.pie_chart_dict = {'Bouldering': sum(climbing_time), 'Yoga': sum(yoga),'Yoga Class': sum(yoga_class), 'Bouldering Class': sum(boulder_class), 'Weight Room': sum(weights)}
-            
+        
+        # this is the lambda function which converts the mpl date format to a given week number
         weekfunc = lambda date: math.floor((datefunc(date) - np.amin(self.unique_dates))/ 7) + 1
+        
         self.weight_week, self.weight, self.fat_mass, self.muscle_mass = np.loadtxt('./weigh-ins.csv', delimiter=',', skiprows=1, unpack=True, usecols=(0, 1, 2, 5), converters={0: weekfunc})
         
         # dictionary of route fails/successes
@@ -185,7 +187,8 @@ def make_plots():
     bars = route_feature_plot.barh(ypos, sorted(inverted_dict.keys()), color='purple')
     
     # overhang completion plot
-    overhang_plot.plot(np.array([idx + 1 for idx in range(len(data.unique_dates))), np.array([ 100 * np.sum(data.overhang_finish[i,:]) / (np.sum(data.overhang_finish[i,:]) + np.sum(data.overhang_failed[i,:])) for i in range(len(data.unique_dates))]), marker='s', mfc='b', label='Overhanging Route Success Rate')
+    pdb.set_trace()
+    overhang_plot.plot(np.array([idx + 1 for idx in range(len(data.unique_dates))]), np.array([ 100 * np.sum(data.overhang_finish[i,:]) / (np.sum(data.overhang_finish[i,:]) + np.sum(data.overhang_failed[i,:])) for i in range(len(data.unique_dates))]), marker='s', mfc='b', label='Overhanging Route Success Rate')
     overhang_plot.set_title('Overhanging Route Completion by Day')
     overhang_plot.set(xlabel='Session No.', ylabel='Completion Rate (%)')
     overhang_plot.set_ylim(0, 100)
