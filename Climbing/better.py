@@ -82,16 +82,17 @@ class Data:
     def get_bubble_arrays(self, did_you_finish, dates, completion, activity, quantity_time, route_level, overhang, overhang_flag):
         unique_dates_list = self.unique_dates.tolist()
         data = np.zeros([len(unique_dates_list), len(self.route_difficulty)])
-        if overhang_flag == True:
-            for i in range(len(dates)):
-                if activity[i] == 'Bouldering' and overhang[i] and completion[i] == did_you_finish:
-                    count = data[unique_dates_list.index(dates[i])][self.route_difficulty[route_level[i]][0]]
-                    data[unique_dates_list.index(dates[i])][self.route_difficulty[route_level[i]][0]] = count + (quantity_time[i] * self.bubble_icon_size_multiplier)
-        else:
-            for i in range(len(dates)):
-                if activity[i] == 'Bouldering' and completion[i] == did_you_finish:
-                    count = data[unique_dates_list.index(dates[i])][self.route_difficulty[route_level[i]][0]]
-                    data[unique_dates_list.index(dates[i])][self.route_difficulty[route_level[i]][0]] = count + (quantity_time[i] * self.bubble_icon_size_multiplier)
+        for i in range(len(dates)):
+            if activity[i] != 'Bouldering':
+                continue
+            if overhang_flag and not overhang[i]:
+                continue
+            if completion[i] == did_you_finish:
+                date_idx = unique_dates_list.index(dates[i])
+                diff_idx = self.route_difficulty[route_level[i]][0]
+                # get old value for cumulative count
+                count = data[date_idx][diff_idx]
+                data[date_idx][diff_idx] = count + (quantity_time[i] * self.bubble_icon_size_multiplier)
         return data
    
 # the function which produces the graphs 
