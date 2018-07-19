@@ -14,7 +14,7 @@ class Data:
     def __init__(self):
 
         self.conversion_constants = { "nan": None, "TRUE": True, "FALSE": False }
-        self.route_difficulty = { "Gray" : [0, "V0"], "Yellow": [1, "V1"], "Green": [2, "V2"], "Red": [3, "V3"], "Blue": [4, "V4"], "Orange": [5, "V5"], "Purple": [6, "V6"], "Black": [7, "V7"] }
+        self.route_difficulty = { "Gray" : (0, "V0"), "Yellow": (1, "V1"), "Green": (2, "V2"), "Red": (3, "V3"), "Blue": (4, "V4"), "Orange": (5, "V5"), "Purple": (6, "V6"), "Black": (7, "V7") }
         
         # LAMBDAS
         datefunc = lambda x: mpldates.date2num(datetime.date(int(x[6:]), int(x[0:2]), int(x[3:5])))
@@ -101,28 +101,49 @@ def make_plots():
     data = Data()
 
     #subplot setup
-    pyp.rcParams["figure.figsize"] = [10,20]
+    pyp.rcParams["figure.figsize"] = [15,20]
     fig = pyp.figure()
-    calendar_plot = pyp.subplot2grid((6, 3), (0, 0), colspan=2)
-    weight_profile = pyp.subplot2grid((6, 3), (0, 2))
-    summary_bubble_plot = pyp.subplot2grid((6, 3), (1, 0), colspan=3)
-    relative_frequency_plot = pyp.subplot2grid((6, 3), (2, 0), colspan=3)
-    overhang_plot = pyp.subplot2grid((6, 3), (3, 0), colspan=2)
-    route_feature_plot = pyp.subplot2grid((6, 3), (3, 2), rowspan=2)
-    time_util_plot = pyp.subplot2grid((6, 3), (4, 0))
-    legend_plot_route_diff = pyp.subplot2grid((6, 3), (5, 0))
-    legend_plot_weight_data = pyp.subplot2grid((6, 3), (5, 1))
-    legend_plot_other = pyp.subplot2grid((6, 3), (5, 2))
+    calendar_plot = pyp.subplot2grid((6, 4), (0, 0), colspan=2)
+    weight_profile = pyp.subplot2grid((6, 4), (0, 2))
+    summary_bubble_plot = pyp.subplot2grid((6, 4), (1, 0), colspan=3)
+    legend_plot_route_diff = pyp.subplot2grid((6, 4), (1, 3))
+    relative_frequency_plot = pyp.subplot2grid((6, 4), (2, 0), colspan=3)
+    overhang_plot = pyp.subplot2grid((6, 4), (3, 0), colspan=2)
+    route_feature_plot = pyp.subplot2grid((6, 4), (2, 3), rowspan=2)
+    time_util_plot = pyp.subplot2grid((6, 4), (4, 0))
     
+    # plot bubble chart of daily climbs
     summary_bubble_plot.set_xlim(0, len(data.unique_dates) + 1)
     summary_bubble_plot.set_ylim(0, len(data.route_difficulty))
     summary_bubble_plot.set_title('Route Completion vs Failure by Difficulty')
     summary_bubble_plot.set(xlabel='Session No.', ylabel='Route Difficulty')
-    
     inv_route_difficulty = { value[0]: key for key, value in data.route_difficulty.items() } 
     for i in range(len(data.route_difficulty)):
         summary_bubble_plot.scatter(np.array([data.unique_dates.tolist().index(x) + 1 for x in data.unique_dates]), np.array([i + 0.5 for x in data.unique_dates]), s=data.bubble_finish[:,i], c=np.array([inv_route_difficulty[i].lower() for x in data.unique_dates]), marker='o', edgecolors='black')
         summary_bubble_plot.scatter(np.array([data.unique_dates.tolist().index(x) + 1 for x in data.unique_dates]), np.array([i + 0.5 for x in data.unique_dates]), s=data.bubble_failed[:,i], c=np.array([inv_route_difficulty[i].lower() for x in data.unique_dates]), marker='s', alpha=0.5)
+    
+    # legend for circuit colors etc.
+    legend_plot_route_diff.set_title('Route Difficulty Legend')
+    legend_plot_route_diff.set_ylim(0, 6)
+    legend_plot_route_diff.set_xlim(-1, 11)
+    legend_plot_route_diff.axis('off')
+    diffx = np.linspace(0, 10, 8).tolist()
+    legend_plot_route_diff.text(5, 5.5, 'Route Rating:', horizontalalignment='center', verticalalignment='center')
+    inverted_route_dict = { val: key for key, val in data.route_difficulty.items() }
+    sorted_keys = sorted(list(inverted_route_dict.keys()), key= lambda x: x[0])
+    legend_plot_route_diff.scatter(diffx, [5 for x in diffx], c=[inverted_route_dict[key].lower() for key in sorted_keys], s=[5 * data.bubble_icon_size_multiplier for x in diffx], marker='o', edgecolors='black')
+    for x in range(len(diffx)):
+        legend_plot_route_diff.text(diffx[x], 4.5, sorted_keys[x][1], horizontalalignment='center')
+    legend_plot_route_diff.scatter(1, 3.5, s=100, c='green', marker='o', edgecolor='black')
+    legend_plot_route_diff.text(2, 3.5, 'Completed', verticalalignment='center')
+    legend_plot_route_diff.scatter(7, 3.5, s=100, c='green', marker='s', alpha=0.5)
+    legend_plot_route_diff.text(8, 3.5, 'Failed', verticalalignment='center')
+    legend_plot_route_diff.text(5, 2.2, 'Route Quantity Scale', horizontalalignment='center')
+    sample_sizes = [1, 3, 5, 7, 10, 13, 16, 20]
+    legend_plot_route_diff.scatter(diffx, [1.5 for x in diffx], c='gray', s=[x * data.bubble_icon_size_multiplier for x in sample_sizes], marker='o', edgecolors='black')
+    legend_plot_route_diff.scatter(diffx, [1.0 for x in diffx], c='gray', s=[x * data.bubble_icon_size_multiplier for x in sample_sizes], marker='s', alpha=0.5)
+    for x in range(len(diffx)):
+        legend_plot_route_diff.text(diffx[x], 0, str(sample_sizes[x]), horizontalalignment='center')
     
     # calendar plot gray squares (baseline)
     for x in range(1, 13):
@@ -188,7 +209,6 @@ def make_plots():
     bars = route_feature_plot.barh(ypos, sorted(inverted_dict.keys()), color='purple')
     
     # overhang completion plot
-    pdb.set_trace()
     overhang_plot.plot(np.array([idx + 1 for idx in range(len(data.unique_dates))]), np.array([ 100 * np.sum(data.overhang_finish[i,:]) / (np.sum(data.overhang_finish[i,:]) + np.sum(data.overhang_failed[i,:])) for i in range(len(data.unique_dates))]), marker='s', mfc='b', label='Overhanging Route Success Rate')
     overhang_plot.set_title('Overhanging Route Completion by Day')
     overhang_plot.set(xlabel='Session No.', ylabel='Completion Rate (%)')
