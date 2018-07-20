@@ -103,14 +103,15 @@ def make_plots():
     #subplot setup
     pyp.rcParams["figure.figsize"] = [15,20]
     fig = pyp.figure()
-    calendar_plot = pyp.subplot2grid((6, 4), (0, 0), colspan=2)
-    weight_profile = pyp.subplot2grid((6, 4), (0, 2))
-    summary_bubble_plot = pyp.subplot2grid((6, 4), (1, 0), colspan=3)
-    legend_plot_route_diff = pyp.subplot2grid((6, 4), (1, 3))
-    relative_frequency_plot = pyp.subplot2grid((6, 4), (2, 0), colspan=3)
-    overhang_plot = pyp.subplot2grid((6, 4), (3, 0), colspan=2)
-    route_feature_plot = pyp.subplot2grid((6, 4), (2, 3), rowspan=2)
-    time_util_plot = pyp.subplot2grid((6, 4), (4, 0))
+    calendar_plot = pyp.subplot2grid((5, 4), (0, 0), colspan=2)
+    weight_profile = pyp.subplot2grid((5, 4), (0, 2))
+    spending_plot = pyp.subplot2grid((5, 4), (0, 3))
+    summary_bubble_plot = pyp.subplot2grid((5, 4), (1, 0), colspan=3)
+    legend_plot_route_diff = pyp.subplot2grid((5, 4), (1, 3))
+    relative_frequency_plot = pyp.subplot2grid((5, 4), (2, 0), colspan=3)
+    overhang_plot = pyp.subplot2grid((5, 4), (3, 0), colspan=2)
+    route_feature_plot = pyp.subplot2grid((5, 4), (2, 3), rowspan=2)
+    time_util_plot = pyp.subplot2grid((5, 4), (3, 2))
     
     # plot bubble chart of daily climbs
     summary_bubble_plot.set_xlim(0, len(data.unique_dates) + 1)
