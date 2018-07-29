@@ -47,6 +47,9 @@ class Data:
         
         self.weight_week, self.weight, self.fat_mass, self.muscle_mass = np.loadtxt('./weigh-ins.csv', delimiter=',', skiprows=1, unpack=True, usecols=(0, 1, 2, 5), converters={0: weekfunc})
         
+        self.cost_categories = np.loadtxt('./costs.csv', delimiter=',', skiprows=1, unpack=True, dtype='str', usecols=2)
+        self.cost_amount = np.loadtxt('./costs.csv', delimiter=',', skiprows=1, unpack=True, usecols=3)
+
         # dictionary of route fails/successes
         # for any given key, the list value will show [succ, fail]
         self.route_feature_dict = {'overhang': [0, 0], 'volume': [0, 0], 'chip': [0, 0], 'corner': [0, 0], 'new route': [0, 0], 'handicap': [0, 0]}
@@ -103,16 +106,31 @@ def make_plots():
     #subplot setup
     pyp.rcParams["figure.figsize"] = [15,20]
     fig = pyp.figure()
-    calendar_plot = pyp.subplot2grid((5, 4), (0, 0), colspan=2)
-    weight_profile = pyp.subplot2grid((5, 4), (0, 2))
-    spending_plot = pyp.subplot2grid((5, 4), (0, 3))
-    summary_bubble_plot = pyp.subplot2grid((5, 4), (1, 0), colspan=3)
-    legend_plot_route_diff = pyp.subplot2grid((5, 4), (1, 3))
-    relative_frequency_plot = pyp.subplot2grid((5, 4), (2, 0), colspan=3)
-    overhang_plot = pyp.subplot2grid((5, 4), (3, 0), colspan=2)
-    route_feature_plot = pyp.subplot2grid((5, 4), (2, 3), rowspan=2)
-    time_util_plot = pyp.subplot2grid((5, 4), (3, 2))
+    make_calendar_plot(pyp.subplot2grid((5, 4), (0, 0), colspan=2), data)
+    make_weight_profile(pyp.subplot2grid((5, 4), (0, 2)), data)
+    make_spending_plot(pyp.subplot2grid((5, 4), (0, 3)), data)
+    make_summary_bubble_plot(pyp.subplot2grid((5, 4), (1, 0), colspan=3), data)
+    make_legend_plot_route_diff(pyp.subplot2grid((5, 4), (1, 3)), data)
+    make_relative_frequency_plot(pyp.subplot2grid((5, 4), (2, 0), colspan=3), data)
+    make_overhang_plot(pyp.subplot2grid((5, 4), (3, 0), colspan=2), data)
+    make_route_feature_plot(pyp.subplot2grid((5, 4), (2, 3), rowspan=2), data)
+    make_time_util_plot(pyp.subplot2grid((5, 4), (3, 2)), data)
+    #finishing touches
+    pyp.tight_layout()
+    pyp.savefig('climbing-plot-%s.png' % str(datetime.datetime.today()), bbox_inches='tight')
     
+def make_spending_plot(spending_plot, data):
+    cost_cats = np.unique(data.cost_categories).tolist()
+    cost_cost = [ 0 for i in range(len(cost_cats)) ]
+    for i in range(len(data.cost_amount)):
+        cost_cost[cost_cats.index(data.cost_categories[i])] += data.cost_amount[i]
+    vals = lambda val: '$%.2f' % ( val / 100. * sum(cost_cost) )
+    spending_plot.pie(cost_cost, labels=cost_cats, autopct=vals)
+    spending_plot.axis('equal')
+    spending_plot.set_title('Expenses')
+    pass
+
+def make_summary_bubble_plot(summary_bubble_plot, data):
     # plot bubble chart of daily climbs
     summary_bubble_plot.set_xlim(0, len(data.unique_dates) + 1)
     summary_bubble_plot.set_ylim(0, len(data.route_difficulty))
@@ -123,6 +141,7 @@ def make_plots():
         summary_bubble_plot.scatter(np.array([data.unique_dates.tolist().index(x) + 1 for x in data.unique_dates]), np.array([i + 0.5 for x in data.unique_dates]), s=data.bubble_finish[:,i], c=np.array([inv_route_difficulty[i].lower() for x in data.unique_dates]), marker='o', edgecolors='black')
         summary_bubble_plot.scatter(np.array([data.unique_dates.tolist().index(x) + 1 for x in data.unique_dates]), np.array([i + 0.5 for x in data.unique_dates]), s=data.bubble_failed[:,i], c=np.array([inv_route_difficulty[i].lower() for x in data.unique_dates]), marker='s', alpha=0.5)
     
+def make_legend_plot_route_diff(legend_plot_route_diff, data):
     # legend for circuit colors etc.
     legend_plot_route_diff.set_title('Route Difficulty Legend')
     legend_plot_route_diff.set_ylim(0, 6)
@@ -146,6 +165,7 @@ def make_plots():
     for x in range(len(diffx)):
         legend_plot_route_diff.text(diffx[x], 0, str(sample_sizes[x]), horizontalalignment='center')
     
+def make_calendar_plot(calendar_plot, data):
     # calendar plot gray squares (baseline)
     for x in range(1, 13):
         for y in range(1, 8):
@@ -163,14 +183,15 @@ def make_plots():
         calendar_plot.add_patch(mpl.patches.Rectangle((week_num - 0.5, weekday - 0.5), 1, 1, facecolor=cmap(scale_normalizer(data.session_times[index]))))
     calendar_plot.set_xlim(0.5, 12.5)
     calendar_plot.set_ylim(0.5, 7.5)
-    calendar_plot.set_yticklabels(['', 'M', 'T', 'W', 'Th', 'F', 'Sa', 'Su'])
+    calendar_plot.set_yticklabels([' ', ' ', 'M', 'T', 'W', 'Th', 'F', 'Sa', 'Su'])
     calendar_plot.set(xlabel='Week No.', ylabel='Weekday (Mon-Sun)')
     calendar_plot.axis('equal')
     calendar_plot.set_title('Session Calendar')
     cal_plot_colorbar = pyp.colorbar(scale_map, ax=calendar_plot, orientation='vertical', ticks=[0., 1.])
     cal_plot_colorbar.ax.set_yticklabels(['0 hrs', '%2.2f hrs' % np.amax(data.session_times)])
     cal_plot_colorbar.set_label('Session Length', labelpad=-25, rotation=270)
-    
+
+def make_weight_profile(weight_profile, data):
     # plot weight data
     weight_profile.set_xlim(np.amin(data.weight_week) - 1, np.amax(data.weight_week) + 1)
     weight_profile.set_ylim(0, 50)
@@ -183,7 +204,8 @@ def make_plots():
     weight_profile_weight.set(ylabel='Weight (lbs)')
     weight_profile.legend(loc=3)
     weight_profile_weight.legend(loc=6)
-    
+
+def make_relative_frequency_plot(relative_frequency_plot, data):
     # success/fail bar graph
     success_vals = np.array([(100 * float(np.sum(data.bubble_finish[i,:])) / (np.sum(data.bubble_failed[i,:]) + np.sum(data.bubble_finish[i,:]))) for i in range(len(data.unique_dates))])
     fail_vals = np.array([(100 * float(np.sum(data.bubble_failed[i,:])) / (np.sum(data.bubble_failed[i,:]) + np.sum(data.bubble_finish[i,:]))) for i in range(len(data.unique_dates))])
@@ -191,12 +213,14 @@ def make_plots():
     fin_perc = relative_frequency_plot.bar(np.array([idx + 1 for idx in range(len(data.unique_dates))]), success_vals, 0.8, color='green', label='Finished')
     fail_perc = relative_frequency_plot.bar(np.array([idx + 1 for idx in range(len(data.unique_dates))]), fail_vals, 0.8, bottom=success_vals, color='gray', label='Failed')
     relative_frequency_plot.legend(loc=3)
-    
+
+def make_time_util_plot(time_util_plot, data):
     # time utilization pie chart
     time_util_plot.pie(data.pie_chart_dict.values(), labels=data.pie_chart_dict.keys(), shadow=True, autopct='%1.1f%%')
     time_util_plot.axis('equal')
     time_util_plot.set_title('Time Utilization')
-    
+
+def make_route_feature_plot(route_feature_plot, data):    
     # route feature completion rates
     route_feature_plot.set_title('Completion rate by route feature')
     route_feature_plot.set(xlabel='Success Rate (%)', ylabel='Feature Type')
@@ -208,16 +232,13 @@ def make_plots():
     inverted_dict = { 100 * float(val[0]) / (val[0] + val[1]): key for key, val in data.route_feature_dict.items() }
     route_feature_plot.set_yticklabels([inverted_dict[key] for key in sorted(inverted_dict.keys())])
     bars = route_feature_plot.barh(ypos, sorted(inverted_dict.keys()), color='purple')
-    
+
+def make_overhang_plot(overhang_plot, data):
     # overhang completion plot
     overhang_plot.plot(np.array([idx + 1 for idx in range(len(data.unique_dates))]), np.array([ 100 * np.sum(data.overhang_finish[i,:]) / (np.sum(data.overhang_finish[i,:]) + np.sum(data.overhang_failed[i,:])) for i in range(len(data.unique_dates))]), marker='s', mfc='b', label='Overhanging Route Success Rate')
     overhang_plot.set_title('Overhanging Route Completion by Day')
     overhang_plot.set(xlabel='Session No.', ylabel='Completion Rate (%)')
     overhang_plot.set_ylim(0, 100)
     
-    #finishing touches
-    
-    pyp.tight_layout()
-    pyp.savefig('climbing-plot-%s.png' % str(datetime.datetime.today()), bbox_inches='tight')
     
 make_plots()
