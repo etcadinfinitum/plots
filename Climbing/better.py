@@ -19,7 +19,6 @@ class Data:
         # LAMBDAS
         datefunc = lambda x: mpldates.date2num(datetime.date(int(x[6:]), int(x[0:2]), int(x[3:5])))
         boolfunc = lambda val: True if self.conversion_constants.get(val.decode()) == True else False
-        # boolfunc = lambda val: self.conversion_constants.get(val.decode())
         
         # LOADTXT
         activity, route_level, features, injury_type = np.loadtxt("./routes.csv", delimiter=",", skiprows=1, unpack=True, usecols=(1,2,5,7), dtype='str')
@@ -106,6 +105,7 @@ def make_plots():
     #subplot setup
     pyp.rcParams["figure.figsize"] = [15,20]
     fig = pyp.figure()
+    # pyp.suptitle('A Beginner\'s Foray Into Bouldering')
     make_calendar_plot(pyp.subplot2grid((5, 4), (0, 0), colspan=2), data)
     make_weight_profile(pyp.subplot2grid((5, 4), (0, 2)), data)
     make_spending_plot(pyp.subplot2grid((5, 4), (0, 3)), data)
@@ -127,6 +127,7 @@ def make_spending_plot(spending_plot, data):
     vals = lambda val: '$%.2f' % ( val / 100. * sum(cost_cost) )
     spending_plot.pie(cost_cost, labels=cost_cats, autopct=vals)
     spending_plot.axis('equal')
+    spending_plot.text(0, -1.35, 'Cost per hour: $%.2f' % (sum(cost_cost) / np.sum(data.session_times)), horizontalalignment='center')
     spending_plot.set_title('Expenses')
     pass
 
@@ -183,7 +184,10 @@ def make_calendar_plot(calendar_plot, data):
         calendar_plot.add_patch(mpl.patches.Rectangle((week_num - 0.5, weekday - 0.5), 1, 1, facecolor=cmap(scale_normalizer(data.session_times[index]))))
     calendar_plot.set_xlim(0.5, 12.5)
     calendar_plot.set_ylim(0.5, 7.5)
+    for d in ['left', 'right', 'top', 'bottom']:
+        calendar_plot.spines[d].set_visible(False)
     calendar_plot.set_yticklabels([' ', ' ', 'M', 'T', 'W', 'Th', 'F', 'Sa', 'Su'])
+    calendar_plot.tick_params(length=0)
     calendar_plot.set(xlabel='Week No.', ylabel='Weekday (Mon-Sun)')
     calendar_plot.axis('equal')
     calendar_plot.set_title('Session Calendar')
@@ -203,6 +207,7 @@ def make_weight_profile(weight_profile, data):
     lbs = weight_profile_weight.plot(data.weight_week, data.weight, color='green', ls='-', marker='o', label='Body Weight (lbs')
     weight_profile_weight.set(ylabel='Weight (lbs)')
     weight_profile.legend(loc=3)
+    weight_profile.set_title('Weight Profile')
     weight_profile_weight.legend(loc=6)
 
 def make_relative_frequency_plot(relative_frequency_plot, data):
