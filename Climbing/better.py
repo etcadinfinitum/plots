@@ -39,7 +39,7 @@ class Data:
         self.overhang_failed = self.get_bubble_arrays(False, dates, completion, activity, quantity_time, route_level, overhang, True)
         
         self.session_dates, climbing_time, yoga, yoga_class, boulder_class, weights, self.session_times = np.loadtxt('session-times.csv', converters={0: datefunc}, skiprows=1, unpack=True, delimiter=',')
-        self.pie_chart_dict = {'Bouldering': sum(climbing_time), 'Yoga': sum(yoga),'Yoga Class': sum(yoga_class), 'Bouldering Class': sum(boulder_class), 'Weight Room': sum(weights)}
+        self.pie_chart_dict = {'Bouldering': sum(climbing_time), 'Bouldering Class': sum(boulder_class), 'Yoga': sum(yoga), 'Weight Room': sum(weights)}
         
         # this is the lambda function which converts the mpl date format to a given week number
         weekfunc = lambda date: math.floor((datefunc(date) - np.amin(self.unique_dates))/ 7) + 1
@@ -105,7 +105,7 @@ def make_plots():
     #subplot setup
     pyp.rcParams["figure.figsize"] = [15,20]
     fig = pyp.figure()
-    # pyp.suptitle('A Beginner\'s Foray Into Bouldering')
+    title = pyp.suptitle('A Beginner\'s Foray Into Bouldering', fontsize=16)
     make_calendar_plot(pyp.subplot2grid((5, 4), (0, 0), colspan=2), data)
     make_weight_profile(pyp.subplot2grid((5, 4), (0, 2)), data)
     make_spending_plot(pyp.subplot2grid((5, 4), (0, 3)), data)
@@ -117,6 +117,8 @@ def make_plots():
     make_time_util_plot(pyp.subplot2grid((5, 4), (3, 2)), data)
     #finishing touches
     pyp.tight_layout()
+    title.set_y(0.95)
+    fig.subplots_adjust(top=0.91)
     pyp.savefig('climbing-plot-%s.png' % str(datetime.datetime.today()), bbox_inches='tight')
     
 def make_spending_plot(spending_plot, data):
@@ -168,7 +170,7 @@ def make_legend_plot_route_diff(legend_plot_route_diff, data):
     
 def make_calendar_plot(calendar_plot, data):
     # calendar plot gray squares (baseline)
-    for x in range(1, 13):
+    for x in range(1, 14):
         for y in range(1, 8):
             calendar_plot.add_patch(mpl.patches.Rectangle((x - 0.5, y - 0.5), 1, 1, color='gray', alpha=0.2))
     # color map constants for calendar plot scale
@@ -203,7 +205,7 @@ def make_weight_profile(weight_profile, data):
     musc = weight_profile.plot(data.weight_week, data.muscle_mass, color='red', ls='--', label='Muscle Mass (%)')
     weight_profile.set(xlabel='Week No.', ylabel='Body Composition (%)')
     weight_profile_weight = weight_profile.twinx()
-    weight_profile_weight.set_ylim(0, 175)
+    weight_profile_weight.set_ylim(130, 175)
     lbs = weight_profile_weight.plot(data.weight_week, data.weight, color='green', ls='-', marker='o', label='Body Weight (lbs')
     weight_profile_weight.set(ylabel='Weight (lbs)')
     weight_profile.legend(loc=3)
@@ -215,13 +217,21 @@ def make_relative_frequency_plot(relative_frequency_plot, data):
     success_vals = np.array([(100 * float(np.sum(data.bubble_finish[i,:])) / (np.sum(data.bubble_failed[i,:]) + np.sum(data.bubble_finish[i,:]))) for i in range(len(data.unique_dates))])
     fail_vals = np.array([(100 * float(np.sum(data.bubble_failed[i,:])) / (np.sum(data.bubble_failed[i,:]) + np.sum(data.bubble_finish[i,:]))) for i in range(len(data.unique_dates))])
     relative_frequency_plot.set_title('Percentage Success vs Failure for Bouldering Attempts by Day')
-    fin_perc = relative_frequency_plot.bar(np.array([idx + 1 for idx in range(len(data.unique_dates))]), success_vals, 0.8, color='green', label='Finished')
-    fail_perc = relative_frequency_plot.bar(np.array([idx + 1 for idx in range(len(data.unique_dates))]), fail_vals, 0.8, bottom=success_vals, color='gray', label='Failed')
+    x_vals = np.array([idx + 1 for idx in range(len(data.unique_dates))])
+    fin_perc = relative_frequency_plot.bar(x_vals, success_vals, 0.8, color='green', label='Finished')
+    fail_perc = relative_frequency_plot.bar(x_vals, fail_vals, 0.8, bottom=success_vals, color='gray', label='Failed')
+    success_vals_clean = [success_vals[i] for i in range(len(success_vals)) if ~np.isnan(success_vals[i])] 
+    x_vals_clean = [x_vals[i] for i in range(len(success_vals)) if ~np.isnan(success_vals[i])]
+    polyfit = np.polyfit(x_vals_clean, success_vals_clean, 1)
+    polyfit_func = np.poly1d(polyfit)
+    relative_frequency_plot.plot(x_vals, polyfit_func(x_vals), 'r--', label='Best Fit')
     relative_frequency_plot.legend(loc=3)
 
 def make_time_util_plot(time_util_plot, data):
     # time utilization pie chart
-    time_util_plot.pie(data.pie_chart_dict.values(), labels=data.pie_chart_dict.keys(), shadow=True, autopct='%1.1f%%')
+    keys = list(data.pie_chart_dict.keys())
+    vals = [data.pie_chart_dict[key] for key in keys]
+    time_util_plot.pie(vals, labels=keys, shadow=True, autopct='%1.1f%%', startangle=210)
     time_util_plot.axis('equal')
     time_util_plot.set_title('Time Utilization')
 
@@ -240,7 +250,14 @@ def make_route_feature_plot(route_feature_plot, data):
 
 def make_overhang_plot(overhang_plot, data):
     # overhang completion plot
-    overhang_plot.plot(np.array([idx + 1 for idx in range(len(data.unique_dates))]), np.array([ 100 * np.sum(data.overhang_finish[i,:]) / (np.sum(data.overhang_finish[i,:]) + np.sum(data.overhang_failed[i,:])) for i in range(len(data.unique_dates))]), marker='s', mfc='b', label='Overhanging Route Success Rate')
+    x_vals = np.array([idx + 1 for idx in range(len(data.unique_dates))])
+    success_vals = np.array([ 100 * np.sum(data.overhang_finish[i,:]) / (np.sum(data.overhang_finish[i,:]) + np.sum(data.overhang_failed[i,:])) for i in range(len(data.unique_dates))]) 
+    overhang_plot.plot(x_vals, success_vals, marker='s', mfc='b', label='Overhanging Route Success Rate')
+    success_vals_clean = [success_vals[i] for i in range(len(success_vals)) if ~np.isnan(success_vals[i])] 
+    x_vals_clean = [x_vals[i] for i in range(len(success_vals)) if ~np.isnan(success_vals[i])]
+    polyfit = np.polyfit(x_vals_clean, success_vals_clean, 1)
+    polyfit_func = np.poly1d(polyfit)
+    overhang_plot.plot(x_vals, polyfit_func(x_vals), 'r--', label='Best Fit')
     overhang_plot.set_title('Overhanging Route Completion by Day')
     overhang_plot.set(xlabel='Session No.', ylabel='Completion Rate (%)')
     overhang_plot.set_ylim(0, 100)
